@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, ScrollView, TextInput, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import HorizontalCardComponent from '../components/HorizontalCardComponent';
 import MainHeaderComponent from '../components/MainHeaderComponent';
 import SliderCardComponent from '../components/SliderCardComponent';
 import { colors, dimensions, fontSizes } from '../styles/constants';
+import auth from '@react-native-firebase/auth';
 
 
 const HomeScreen = ({navigation}) => {
+
+  useEffect(() => {
+    if (!auth().currentUser) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Welcome' }],
+      });
+    }
+  }, []);
+
   // Dummy data for recommended items (replace with your data)
   const handleSignIn = () => {
     navigation.navigate('HomeScreen');

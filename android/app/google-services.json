@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "665024165682",
+    "project_id": "obesityapp-be898",
+    "storage_bucket": "obesityapp-be898.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665024165682:android:3c0abab54e279a6c26892b",
+        "android_client_info": {
+          "package_name": "com.obesityapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrC82iL-dOod-pzX5IaMrLxNYNBZpErxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

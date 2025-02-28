@@ -74,8 +74,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from '../views/WelcomeScreen';
 import Login from '../views/Login';
 import Signup from '../views/Signup';
+import ForgotPasswordScreen from '../views/ForgotPasswordScreen';
 import HealthAssessment from '../views/HealthAssessment';
 import HomeScreen from '../views/HomeScreen';
+import NutritionScreen from '../views/NutritionScreen';
+import ExerciseScreen from '../views/ExerciseScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -90,8 +94,11 @@ const StackNavigation = ({ user }) => {
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
       <Stack.Screen name="HealthAssessment" component={HealthAssessment} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="NutritionScreen" component={NutritionScreen} />
+      <Stack.Screen name="ExerciseScreen" component={ExerciseScreen} />
     </Stack.Navigator>
   );
 };

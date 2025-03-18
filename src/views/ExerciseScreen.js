@@ -159,97 +159,453 @@
 
 // export default ExerciseScreen;
 
+// import React, { useState } from 'react';
+// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+// import Icon from 'react-native-vector-icons/FontAwesome5';
+
+// const ExerciseScreen = ({ navigation }) => {
+//   // Sample user data with limitations (replace with actual user input/ML model)
+//   const userLimitations = { hasJointPain: false }; // Example: toggle to true for testing
+
+//   // Sample workout suggestion from ML model
+//   const workoutSuggestion = [
+//     { name: 'Brisk Walking', duration: '20 min', icon: 'walking' },
+//     { name: 'Light Running', duration: '10 min', icon: 'running', restricted: userLimitations.hasJointPain },
+//     { name: 'Stretching', duration: '5 min', icon: 'child' },
+//   ].filter(exercise => !exercise.restricted); // Filter out restricted exercises
+
+//   // State for completion progress
+//   const [completedExercises, setCompletedExercises] = useState([]); // Track completed indices
+
+//   // Calculate progress percentage
+//   const totalExercises = workoutSuggestion.length;
+//   const completedCount = completedExercises.length;
+//   const progressPercentage = (completedCount / totalExercises) * 100;
+
+//   // Toggle completion of an exercise
+//   const toggleCompletion = (index) => {
+//     if (completedExercises.includes(index)) {
+//       setCompletedExercises(completedExercises.filter((i) => i !== index));
+//     } else {
+//       setCompletedExercises([...completedExercises, index]);
+//     }
+//   };
+
+//   return (
+//     <ScrollView style={styles.container}>
+//       {/* Header */}
+//       <View style={styles.header}>
+//         <Text style={styles.headerText}>Your Workout Plan</Text>
+//         <Text style={styles.subtitle}>Tailored for your needs</Text>
+//       </View>
+
+//       {/* Workout Card */}
+//       <View style={styles.workoutCard}>
+//         <View style={styles.progressContainer}>
+//           <View style={styles.progressCircle}>
+//             <View
+//               style={{
+//                 ...styles.progressFill,
+//                 height: `${progressPercentage}%`,
+//               }}
+//             />
+//             <Text style={styles.progressText}>
+//               {completedCount}/{totalExercises}
+//             </Text>
+//           </View>
+//           <Text style={styles.cardTitle}>Today’s Routine</Text>
+//         </View>
+
+//         {/* Exercise List */}
+//         {workoutSuggestion.map((exercise, index) => (
+//           <View key={index} style={styles.exerciseItem}>
+//             <Icon name={exercise.icon} size={24} color="#3b82f6" />
+//             <Text style={styles.exerciseText}>
+//               {exercise.name} - {exercise.duration}
+//             </Text>
+//             <TouchableOpacity
+//               onPress={() => toggleCompletion(index)}
+//               style={styles.checkButton}
+//             >
+//               <Icon
+//                 name={completedExercises.includes(index) ? 'check-circle' : 'circle'}
+//                 size={20}
+//                 color={completedExercises.includes(index) ? '#22c55e' : '#6b7280'}
+//               />
+//             </TouchableOpacity>
+//           </View>
+//         ))}
+
+//         {/* Start Workout Button */}
+//         <TouchableOpacity
+//           style={styles.startButton}
+//           onPress={() => alert('Workout started!')} // Replace with timer/step tracker
+//         >
+//           <Text style={styles.buttonText}>Start Workout</Text>
+//         </TouchableOpacity>
+//       </View>
+
+//       {/* Back to Home Button */}
+//       <TouchableOpacity
+//         style={styles.backButton}
+//         onPress={() => navigation.navigate('HomeScreen')}
+//       >
+//         <Text style={styles.backButtonText}>Back to Home</Text>
+//       </TouchableOpacity>
+//     </ScrollView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#f3f4f6',
+//   },
+//   header: {
+//     padding: 20,
+//     backgroundColor: '#3b82f6',
+//     borderBottomLeftRadius: 20,
+//     borderBottomRightRadius: 20,
+//   },
+//   headerText: {
+//     fontSize: 28,
+//     fontWeight: 'bold',
+//     color: '#fff',
+//   },
+//   subtitle: {
+//     fontSize: 16,
+//     color: '#fff',
+//     opacity: 0.9,
+//     marginTop: 4,
+//   },
+//   workoutCard: {
+//     backgroundColor: '#fff',
+//     margin: 16,
+//     padding: 20,
+//     borderRadius: 16,
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 2,
+//   },
+//   progressContainer: {
+//     alignItems: 'center',
+//     marginBottom: 20,
+//   },
+//   progressCircle: {
+//     width: 80,
+//     height: 80,
+//     borderRadius: 40,
+//     backgroundColor: '#e5e7eb',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     overflow: 'hidden',
+//     position: 'relative',
+//   },
+//   progressFill: {
+//     position: 'absolute',
+//     bottom: 0,
+//     width: '100%',
+//     backgroundColor: '#3b82f6',
+//   },
+//   progressText: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//     color: '#3b82f6',
+//     position: 'absolute',
+//   },
+//   cardTitle: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//     color: '#3b82f6',
+//     marginTop: 12,
+//   },
+//   exerciseItem: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//     marginVertical: 10,
+//     paddingVertical: 8,
+//     borderBottomWidth: 1,
+//     borderBottomColor: '#e5e7eb',
+//   },
+//   exerciseText: {
+//     fontSize: 16,
+//     color: '#6b7280',
+//     flex: 1,
+//     marginLeft: 12,
+//   },
+//   checkButton: {
+//     padding: 4,
+//   },
+//   startButton: {
+//     backgroundColor: '#3b82f6',
+//     paddingVertical: 12,
+//     paddingHorizontal: 20,
+//     borderRadius: 8,
+//     marginTop: 20,
+//     alignItems: 'center',
+//   },
+//   buttonText: {
+//     color: '#fff',
+//     fontSize: 16,
+//     fontWeight: '600',
+//   },
+//   backButton: {
+//     margin: 16,
+//     padding: 12,
+//     backgroundColor: '#fff',
+//     borderRadius: 8,
+//     alignItems: 'center',
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 2,
+//   },
+//   backButtonText: {
+//     fontSize: 16,
+//     color: '#3b82f6',
+//     fontWeight: '600',
+//   },
+// });
+
+// export default ExerciseScreen;
+
+// import React, { useState } from 'react';
+// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+// import Icon from 'react-native-vector-icons/FontAwesome5';
+
+// const ExerciseScreen = ({ navigation }) => {
+//   const userLimitations = { hasJointPain: false };
+//   const workoutSuggestion = [
+//     { name: 'Brisk Walking', duration: '20 min', icon: 'walking' },
+//     { name: 'Light Running', duration: '10 min', icon: 'running', restricted: userLimitations.hasJointPain },
+//     { name: 'Stretching', duration: '5 min', icon: 'child' },
+//   ].filter(exercise => !exercise.restricted);
+//   const [completedExercises, setCompletedExercises] = useState([]);
+//   const totalExercises = workoutSuggestion.length;
+//   const completedCount = completedExercises.length;
+//   const progressPercentage = (completedCount / totalExercises) * 100;
+
+//   const toggleCompletion = (index) => {
+//     setCompletedExercises(completedExercises.includes(index)
+//       ? completedExercises.filter(i => i !== index)
+//       : [...completedExercises, index]);
+//   };
+
+//   return (
+//     <ScrollView style={styles.container}>
+//       <View style={styles.header}>
+//         <Text style={styles.headerText}>Your Workout Plan</Text>
+//         <Text style={styles.subtitle}>Tailored for your needs</Text>
+//       </View>
+//       <View style={styles.workoutCard}>
+//         <View style={styles.progressContainer}>
+//           <View style={styles.progressCircle}>
+//             <View style={{ ...styles.progressFill, height: `${progressPercentage}%` }} />
+//             <Text style={styles.progressText}>{completedCount}/{totalExercises}</Text>
+//           </View>
+//           <Text style={styles.cardTitle}>Today’s Routine</Text>
+//         </View>
+//         {workoutSuggestion.map((exercise, index) => (
+//           <View key={index} style={styles.exerciseItem}>
+//             <Icon name={exercise.icon} size={24} color="#34C759" /> 
+//             <Text style={styles.exerciseText}>{exercise.name} - {exercise.duration}</Text>
+//             <TouchableOpacity onPress={() => toggleCompletion(index)} style={styles.checkButton}>
+//               <Icon
+//                 name={completedExercises.includes(index) ? 'check-circle' : 'circle'}
+//                 size={20}
+//                 color={completedExercises.includes(index) ? '#34C759' : '#666666'} 
+//               />
+//             </TouchableOpacity>
+//           </View>
+//         ))}
+//         <TouchableOpacity style={styles.startButton} onPress={() => alert('Workout started!')}>
+//           <Text style={styles.buttonText}>Start Workout</Text>
+//         </TouchableOpacity>
+//       </View>
+//       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomeScreen')}>
+//         <Text style={styles.backButtonText}>Back to Home</Text>
+//       </TouchableOpacity>
+//     </ScrollView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#F5F5F5', // Light Gray
+//   },
+//   header: {
+//     padding: 20,
+//     backgroundColor: '#3B82F6', // Vibrant Blue
+//     borderBottomLeftRadius: 20,
+//     borderBottomRightRadius: 20,
+//   },
+//   headerText: {
+//     fontSize: 28,
+//     fontWeight: 'bold',
+//     color: '#F5F5F5', // Light Gray
+//   },
+//   subtitle: {
+//     fontSize: 16,
+//     color: '#F5F5F5',
+//     opacity: 0.9,
+//     marginTop: 4,
+//   },
+//   workoutCard: {
+//     backgroundColor: '#FFFFFF', // White
+//     margin: 16,
+//     padding: 20,
+//     borderRadius: 16,
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 2,
+//   },
+//   progressContainer: {
+//     alignItems: 'center',
+//     marginBottom: 20,
+//   },
+//   progressCircle: {
+//     width: 80,
+//     height: 80,
+//     borderRadius: 40,
+//     backgroundColor: '#E0E0E0', // Light gray base
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     overflow: 'hidden',
+//     position: 'relative',
+//   },
+//   progressFill: {
+//     position: 'absolute',
+//     bottom: 0,
+//     width: '100%',
+//     backgroundColor: '#34C759', // Soft Green
+//   },
+//   progressText: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//     color: '#333333', // Dark Gray
+//     position: 'absolute',
+//   },
+//   cardTitle: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//     color: '#3B82F6', // Vibrant Blue
+//     marginTop: 12,
+//   },
+//   exerciseItem: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//     marginVertical: 10,
+//     paddingVertical: 8,
+//     borderBottomWidth: 1,
+//     borderBottomColor: '#E0E0E0', // Light gray
+//   },
+//   exerciseText: {
+//     fontSize: 16,
+//     color: '#333333', // Dark Gray
+//     flex: 1,
+//     marginLeft: 12,
+//   },
+//   checkButton: {
+//     padding: 4,
+//   },
+//   startButton: {
+//     backgroundColor: '#3B82F6', // Vibrant Blue
+//     paddingVertical: 12,
+//     paddingHorizontal: 20,
+//     borderRadius: 8,
+//     marginTop: 20,
+//     alignItems: 'center',
+//   },
+//   buttonText: {
+//     color: '#F5F5F5', // Light Gray
+//     fontSize: 16,
+//     fontWeight: '600',
+//   },
+//   backButton: {
+//     margin: 16,
+//     padding: 12,
+//     backgroundColor: '#FFFFFF',
+//     borderRadius: 8,
+//     alignItems: 'center',
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 2,
+//   },
+//   backButtonText: {
+//     fontSize: 16,
+//     color: '#3B82F6', // Vibrant Blue
+//     fontWeight: '600',
+//   },
+// });
+
+// export default ExerciseScreen;
+
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const ExerciseScreen = ({ navigation }) => {
-  // Sample user data with limitations (replace with actual user input/ML model)
-  const userLimitations = { hasJointPain: false }; // Example: toggle to true for testing
-
-  // Sample workout suggestion from ML model
+  const userLimitations = { hasJointPain: false };
   const workoutSuggestion = [
     { name: 'Brisk Walking', duration: '20 min', icon: 'walking' },
     { name: 'Light Running', duration: '10 min', icon: 'running', restricted: userLimitations.hasJointPain },
     { name: 'Stretching', duration: '5 min', icon: 'child' },
-  ].filter(exercise => !exercise.restricted); // Filter out restricted exercises
-
-  // State for completion progress
-  const [completedExercises, setCompletedExercises] = useState([]); // Track completed indices
-
-  // Calculate progress percentage
+  ].filter(exercise => !exercise.restricted);
+  const [completedExercises, setCompletedExercises] = useState([]);
   const totalExercises = workoutSuggestion.length;
   const completedCount = completedExercises.length;
   const progressPercentage = (completedCount / totalExercises) * 100;
 
-  // Toggle completion of an exercise
   const toggleCompletion = (index) => {
-    if (completedExercises.includes(index)) {
-      setCompletedExercises(completedExercises.filter((i) => i !== index));
-    } else {
-      setCompletedExercises([...completedExercises, index]);
-    }
+    setCompletedExercises(completedExercises.includes(index)
+      ? completedExercises.filter(i => i !== index)
+      : [...completedExercises, index]);
   };
 
   return (
     <ScrollView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Your Workout Plan</Text>
         <Text style={styles.subtitle}>Tailored for your needs</Text>
       </View>
-
-      {/* Workout Card */}
       <View style={styles.workoutCard}>
         <View style={styles.progressContainer}>
           <View style={styles.progressCircle}>
-            <View
-              style={{
-                ...styles.progressFill,
-                height: `${progressPercentage}%`,
-              }}
-            />
-            <Text style={styles.progressText}>
-              {completedCount}/{totalExercises}
-            </Text>
+            <View style={{ ...styles.progressFill, height: `${progressPercentage}%` }} />
+            <Text style={styles.progressText}>{completedCount}/{totalExercises}</Text>
           </View>
           <Text style={styles.cardTitle}>Today’s Routine</Text>
         </View>
-
-        {/* Exercise List */}
         {workoutSuggestion.map((exercise, index) => (
           <View key={index} style={styles.exerciseItem}>
-            <Icon name={exercise.icon} size={24} color="#3b82f6" />
-            <Text style={styles.exerciseText}>
-              {exercise.name} - {exercise.duration}
-            </Text>
-            <TouchableOpacity
-              onPress={() => toggleCompletion(index)}
-              style={styles.checkButton}
-            >
+            <View style={styles.exerciseContent}>
+              <Icon name={exercise.icon} size={24} color="#34C759" />
+              <Text style={styles.exerciseText}>{exercise.name} - {exercise.duration}</Text>
+            </View>
+            <TouchableOpacity onPress={() => toggleCompletion(index)} style={styles.checkButton}>
               <Icon
                 name={completedExercises.includes(index) ? 'check-circle' : 'circle'}
-                size={20}
-                color={completedExercises.includes(index) ? '#22c55e' : '#6b7280'}
+                size={24}
+                color={completedExercises.includes(index) ? '#34C759' : '#666666'}
               />
             </TouchableOpacity>
           </View>
         ))}
-
-        {/* Start Workout Button */}
-        <TouchableOpacity
-          style={styles.startButton}
-          onPress={() => alert('Workout started!')} // Replace with timer/step tracker
-        >
+        <TouchableOpacity style={styles.startButton} onPress={() => alert('Starting a 35-min timer!')}>
           <Text style={styles.buttonText}>Start Workout</Text>
         </TouchableOpacity>
       </View>
-
-      {/* Back to Home Button */}
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.navigate('HomeScreen')}
-      >
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomeScreen')}>
         <Text style={styles.backButtonText}>Back to Home</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -257,118 +613,24 @@ const ExerciseScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f3f4f6',
-  },
-  header: {
-    padding: 20,
-    backgroundColor: '#3b82f6',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-  },
-  headerText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#fff',
-    opacity: 0.9,
-    marginTop: 4,
-  },
-  workoutCard: {
-    backgroundColor: '#fff',
-    margin: 16,
-    padding: 20,
-    borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  progressContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  progressCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#e5e7eb',
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  progressFill: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    backgroundColor: '#3b82f6',
-  },
-  progressText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#3b82f6',
-    position: 'absolute',
-  },
-  cardTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#3b82f6',
-    marginTop: 12,
-  },
-  exerciseItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginVertical: 10,
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-  },
-  exerciseText: {
-    fontSize: 16,
-    color: '#6b7280',
-    flex: 1,
-    marginLeft: 12,
-  },
-  checkButton: {
-    padding: 4,
-  },
-  startButton: {
-    backgroundColor: '#3b82f6',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  backButton: {
-    margin: 16,
-    padding: 12,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  backButtonText: {
-    fontSize: 16,
-    color: '#3b82f6',
-    fontWeight: '600',
-  },
+  container: { flex: 1, backgroundColor: '#F5F5F5' },
+  header: { padding: 20, backgroundColor: '#3B82F6', borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
+  headerText: { fontSize: 28, fontWeight: 'bold', color: '#F5F5F5' },
+  subtitle: { fontSize: 16, color: '#F5F5F5', opacity: 0.9, marginTop: 4 },
+  workoutCard: { backgroundColor: '#FFFFFF', margin: 16, padding: 20, borderRadius: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 2 },
+  progressContainer: { alignItems: 'center', marginBottom: 20 },
+  progressCircle: { width: 80, height: 80, borderRadius: 40, backgroundColor: '#E0E0E0', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', position: 'relative' },
+  progressFill: { position: 'absolute', bottom: 0, width: '100%', backgroundColor: '#34C759' },
+  progressText: { fontSize: 20, fontWeight: 'bold', color: '#333333', position: 'absolute' },
+  cardTitle: { fontSize: 20, fontWeight: 'bold', color: '#3B82F6', marginTop: 12 },
+  exerciseItem: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 12, padding: 12, backgroundColor: '#F9F9F9', borderRadius: 8 },
+  exerciseContent: { flexDirection: 'row', alignItems: 'center', flex: 1 },
+  exerciseText: { fontSize: 16, color: '#333333', marginLeft: 12 },
+  checkButton: { padding: 4 },
+  startButton: { backgroundColor: '#3B82F6', paddingVertical: 12, paddingHorizontal: 20, borderRadius: 8, marginTop: 20, alignItems: 'center' },
+  buttonText: { color: '#F5F5F5', fontSize: 16, fontWeight: '600' },
+  backButton: { margin: 16, padding: 12, backgroundColor: '#3B82F6', borderRadius: 8, alignItems: 'center' },
+  backButtonText: { fontSize: 16, color: '#F5F5F5', fontWeight: '600' },
 });
 
 export default ExerciseScreen;

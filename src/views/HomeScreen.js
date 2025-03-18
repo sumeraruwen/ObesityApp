@@ -1013,78 +1013,588 @@
 
 // export default HomeScreen;
 
-import React from 'react';
+// import React from 'react';
+// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+// import Icon from 'react-native-vector-icons/FontAwesome5';
+
+// const HomeScreen = ({ navigation }) => {
+//   // Sample user data (replace with ML model outputs or API calls)
+//   const userData = {
+//     name: 'Alex',
+//     currentWeight: 95.8, // From user input or progress tracking
+//     calorieGoal: 1800,   // From your calorie ML model
+//     steps: 4500,         // Optional, if activity tracking is integrated
+//   };
+
+//   return (
+//     <ScrollView style={styles.container}>
+//       {/* Greeting Section */}
+//       <View style={styles.greetingSection}>
+//         <Text style={styles.greetingText}>Hi {userData.name}!</Text>
+//         <Text style={styles.subtitle}>Your personalized health hub</Text>
+//       </View>
+
+//       {/* Quick Stats */}
+//       <View style={styles.quickStats}>
+//         <View style={styles.statCard}>
+//           <Icon name="weight" size={24} color="#3b82f6" />
+//           <Text style={styles.statValue}>{userData.currentWeight} kg</Text>
+//           <Text style={styles.statLabel}>Weight</Text>
+//         </View>
+//         <View style={styles.statCard}>
+//           <Icon name="fire" size={24} color="#3b82f6" />
+//           <Text style={styles.statValue}>{userData.calorieGoal} kcal</Text>
+//           <Text style={styles.statLabel}>Calorie Goal</Text>
+//         </View>
+//         <View style={styles.statCard}>
+//           <Icon name="shoe-prints" size={24} color="#3b82f6" />
+//           <Text style={styles.statValue}>{userData.steps}</Text>
+//           <Text style={styles.statLabel}>Steps</Text>
+//         </View>
+//       </View>
+
+//       {/* Navigation Tiles */}
+//       <View style={styles.tilesContainer}>
+//         <TouchableOpacity
+//           style={styles.tile}
+//           onPress={() => navigation.navigate('ExerciseScreen')}
+//         >
+//           <Icon name="dumbbell" size={30} color="#3b82f6" />
+//           <Text style={styles.tileText}>Today’s Workout</Text>
+//         </TouchableOpacity>
+
+//         <TouchableOpacity
+//           style={styles.tile}
+//           onPress={() => navigation.navigate('NutritionScreen')}
+//         >
+//           <Icon name="apple-alt" size={30} color="#3b82f6" />
+//           <Text style={styles.tileText}>Meal Plan</Text>
+//         </TouchableOpacity>
+
+//         <TouchableOpacity
+//           style={styles.tile}
+//           onPress={() => navigation.navigate('ProgressTrackingScreen')}
+//         >
+//           <Icon name="chart-line" size={30} color="#3b82f6" />
+//           <Text style={styles.tileText}>Track Progress</Text>
+//         </TouchableOpacity>
+
+//         <TouchableOpacity
+//           style={styles.tile}
+//           onPress={() => navigation.navigate('MotivationScreen')}
+//         >
+//           <Icon name="star" size={30} color="#3b82f6" />
+//           <Text style={styles.tileText}>Motivation</Text>
+//         </TouchableOpacity>
+//       </View>
+//     </ScrollView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#f3f4f6',
+//   },
+//   greetingSection: {
+//     padding: 20,
+//     backgroundColor: '#3b82f6',
+//     borderBottomLeftRadius: 20,
+//     borderBottomRightRadius: 20,
+//   },
+//   greetingText: {
+//     fontSize: 28,
+//     fontWeight: 'bold',
+//     color: '#fff',
+//   },
+//   subtitle: {
+//     fontSize: 16,
+//     color: '#fff',
+//     opacity: 0.9,
+//     marginTop: 4,
+//   },
+//   quickStats: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-around',
+//     padding: 16,
+//   },
+//   statCard: {
+//     backgroundColor: '#fff',
+//     padding: 12,
+//     borderRadius: 12,
+//     alignItems: 'center',
+//     width: '30%',
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 2,
+//   },
+//   statValue: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#3b82f6',
+//     marginTop: 8,
+//   },
+//   statLabel: {
+//     fontSize: 14,
+//     color: '#6b7280',
+//     marginTop: 4,
+//   },
+//   tilesContainer: {
+//     padding: 16,
+//     flexDirection: 'row',
+//     flexWrap: 'wrap',
+//     justifyContent: 'space-between',
+//   },
+//   tile: {
+//     width: '48%',
+//     backgroundColor: '#fff',
+//     padding: 20,
+//     borderRadius: 16,
+//     alignItems: 'center',
+//     marginBottom: 16,
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 2,
+//   },
+//   tileText: {
+//     fontSize: 16,
+//     fontWeight: '600',
+//     color: '#3b82f6',
+//     marginTop: 12,
+//   },
+// });
+
+// export default HomeScreen;
+
+// import React from 'react';
+// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+// import Icon from 'react-native-vector-icons/FontAwesome5';
+
+// const HomeScreen = ({ navigation }) => {
+//   const userData = {
+//     name: 'Alex',
+//     currentWeight: 95.8,
+//     calorieGoal: 1800,
+//     steps: 4500,
+//   };
+
+//   return (
+//     <ScrollView style={styles.container}>
+//       <View style={styles.greetingSection}>
+//         <Text style={styles.greetingText}>Hi {userData.name}!</Text>
+//         <Text style={styles.subtitle}>Your personalized health hub</Text>
+//       </View>
+
+//       <View style={styles.quickStats}>
+//         <View style={styles.statCard}>
+//           <Icon name="weight" size={24} color="#34C759" /> 
+//           <Text style={styles.statValue}>{userData.currentWeight} kg</Text>
+//           <Text style={styles.statLabel}>Weight</Text>
+//         </View>
+//         <View style={styles.statCard}>
+//           <Icon name="fire" size={24} color="#34C759" />
+//           <Text style={styles.statValue}>{userData.calorieGoal} kcal</Text>
+//           <Text style={styles.statLabel}>Calorie Goal</Text>
+//         </View>
+//         <View style={styles.statCard}>
+//           <Icon name="shoe-prints" size={24} color="#34C759" />
+//           <Text style={styles.statValue}>{userData.steps}</Text>
+//           <Text style={styles.statLabel}>Steps</Text>
+//         </View>
+//       </View>
+
+//       <View style={styles.tilesContainer}>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('ExerciseScreen')}>
+//           <Icon name="dumbbell" size={30} color="#3B82F6" /> 
+//           <Text style={styles.tileText}>Today’s Workout</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('NutritionScreen')}>
+//           <Icon name="apple-alt" size={30} color="#3B82F6" />
+//           <Text style={styles.tileText}>Meal Plan</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('ProgressTrackingScreen')}>
+//           <Icon name="chart-line" size={30} color="#3B82F6" />
+//           <Text style={styles.tileText}>Track Progress</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('MotivationScreen')}>
+//           <Icon name="star" size={30} color="#3B82F6" />
+//           <Text style={styles.tileText}>Motivation</Text>
+//         </TouchableOpacity>
+//       </View>
+//     </ScrollView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#F5F5F5', // Light Gray
+//   },
+//   greetingSection: {
+//     padding: 20,
+//     backgroundColor: '#3B82F6', // Vibrant Blue
+//     borderBottomLeftRadius: 20,
+//     borderBottomRightRadius: 20,
+//   },
+//   greetingText: {
+//     fontSize: 28,
+//     fontWeight: 'bold',
+//     color: '#F5F5F5', // Light Gray text
+//   },
+//   subtitle: {
+//     fontSize: 16,
+//     color: '#F5F5F5',
+//     opacity: 0.9,
+//     marginTop: 4,
+//   },
+//   quickStats: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-around',
+//     padding: 16,
+//   },
+//   statCard: {
+//     backgroundColor: '#FFFFFF', // White
+//     padding: 12,
+//     borderRadius: 12,
+//     alignItems: 'center',
+//     width: '30%',
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 2,
+//   },
+//   statValue: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#333333', // Dark Gray
+//     marginTop: 8,
+//   },
+//   statLabel: {
+//     fontSize: 14,
+//     color: '#666666', // Lighter gray
+//     marginTop: 4,
+//   },
+//   tilesContainer: {
+//     padding: 16,
+//     flexDirection: 'row',
+//     flexWrap: 'wrap',
+//     justifyContent: 'space-between',
+//   },
+//   tile: {
+//     width: '48%',
+//     backgroundColor: '#FFFFFF',
+//     padding: 20,
+//     borderRadius: 16,
+//     alignItems: 'center',
+//     marginBottom: 16,
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 2,
+//   },
+//   tileText: {
+//     fontSize: 16,
+//     fontWeight: '600',
+//     color: '#3B82F6', // Vibrant Blue
+//     marginTop: 12,
+//   },
+// });
+
+// export default HomeScreen;
+
+// import React from 'react';
+// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+// import Icon from 'react-native-vector-icons/FontAwesome5';
+
+// const HomeScreen = ({ navigation }) => {
+//   const userData = {
+//     name: 'Alex',
+//     currentWeight: 95.8,
+//     calorieGoal: 1800,
+//     steps: 4500,
+//   };
+
+//   return (
+//     <ScrollView style={styles.container}>
+//       <View style={styles.greetingSection}>
+//         <Text style={styles.greetingText}>Hi {userData.name}!</Text>
+//         <Text style={styles.subtitle}>Your personalized health hub</Text>
+//       </View>
+
+//       <View style={styles.quickStats}>
+//         <View style={styles.statCard}>
+//           <Icon name="weight" size={24} color="#34C759" />
+//           <Text style={styles.statValue}>{userData.currentWeight} kg</Text>
+//           <Text style={styles.statLabel}>Weight</Text>
+//         </View>
+//         <View style={styles.statCard}>
+//           <Icon name="fire" size={24} color="#34C759" />
+//           <Text style={styles.statValue}>{userData.calorieGoal} kcal</Text>
+//           <Text style={styles.statLabel}>Calorie Goal</Text>
+//         </View>
+//         <View style={styles.statCard}>
+//           <Icon name="shoe-prints" size={24} color="#34C759" />
+//           <Text style={styles.statValue}>{userData.steps}</Text>
+//           <Text style={styles.statLabel}>Steps</Text>
+//         </View>
+//       </View>
+
+//       <View style={styles.tilesContainer}>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('ExerciseScreen')}>
+//           <View style={styles.tileContent}>
+//             <Icon name="dumbbell" size={40} color="#3B82F6" />
+//             <View style={styles.tileTextContainer}>
+//               <Text style={styles.tileText}>Today’s Workout</Text>
+//               <Text style={styles.tileSubtitle}>Get moving now!</Text>
+//             </View>
+//             <Icon name="chevron-right" size={20} color="#3B82F6" />
+//           </View>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('NutritionScreen')}>
+//           <View style={styles.tileContent}>
+//             <Icon name="apple-alt" size={40} color="#3B82F6" />
+//             <View style={styles.tileTextContainer}>
+//               <Text style={styles.tileText}>Meal Plan</Text>
+//               <Text style={styles.tileSubtitle}>Fuel your day!</Text>
+//             </View>
+//             <Icon name="chevron-right" size={20} color="#3B82F6" />
+//           </View>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('ProgressTrackingScreen')}>
+//           <View style={styles.tileContent}>
+//             <Icon name="chart-line" size={40} color="#3B82F6" />
+//             <View style={styles.tileTextContainer}>
+//               <Text style={styles.tileText}>Track Progress</Text>
+//               <Text style={styles.tileSubtitle}>See your gains!</Text>
+//             </View>
+//             <Icon name="chevron-right" size={20} color="#3B82F6" />
+//           </View>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('MotivationScreen')}>
+//           <View style={styles.tileContent}>
+//             <Icon name="star" size={40} color="#3B82F6" />
+//             <View style={styles.tileTextContainer}>
+//               <Text style={styles.tileText}>Motivation</Text>
+//               <Text style={styles.tileSubtitle}>Stay inspired!</Text>
+//             </View>
+//             <Icon name="chevron-right" size={20} color="#3B82F6" />
+//           </View>
+//         </TouchableOpacity>
+//       </View>
+//     </ScrollView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#F5F5F5',
+//   },
+//   greetingSection: {
+//     padding: 20,
+//     backgroundColor: '#3B82F6',
+//     borderBottomLeftRadius: 20,
+//     borderBottomRightRadius: 20,
+//   },
+//   greetingText: {
+//     fontSize: 28,
+//     fontWeight: 'bold',
+//     color: '#F5F5F5',
+//   },
+//   subtitle: {
+//     fontSize: 16,
+//     color: '#F5F5F5',
+//     opacity: 0.9,
+//     marginTop: 4,
+//   },
+//   quickStats: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-around',
+//     padding: 16,
+//   },
+//   statCard: {
+//     backgroundColor: '#FFFFFF',
+//     padding: 12,
+//     borderRadius: 12,
+//     alignItems: 'center',
+//     width: '30%',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 8,
+//   },
+//   statValue: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#333333',
+//     marginTop: 8,
+//   },
+//   statLabel: {
+//     fontSize: 14,
+//     color: '#666666',
+//     marginTop: 4,
+//   },
+//   tilesContainer: {
+//     padding: 16,
+//     flexDirection: 'column', // One card per row
+//   },
+//   tile: {
+//     width: '100%', // Full width
+//     height: 100, // Fixed height for rectangular shape
+//     backgroundColor: '#FFFFFF',
+//     borderRadius: 16,
+//     marginBottom: 16,
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 8,
+//   },
+//   tileContent: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//     padding: 20,
+//     flex: 1,
+//   },
+//   tileTextContainer: {
+//     flex: 1,
+//     marginLeft: 16,
+//   },
+//   tileText: {
+//     fontSize: 18, // Slightly larger text
+//     fontWeight: '600',
+//     color: '#3B82F6',
+//   },
+//   tileSubtitle: {
+//     fontSize: 14,
+//     color: '#666666',
+//     marginTop: 4,
+//   },
+// });
+
+// export default HomeScreen;
+
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const HomeScreen = ({ navigation }) => {
-  // Sample user data (replace with ML model outputs or API calls)
-  const userData = {
-    name: 'Alex',
-    currentWeight: 95.8, // From user input or progress tracking
-    calorieGoal: 1800,   // From your calorie ML model
-    steps: 4500,         // Optional, if activity tracking is integrated
-  };
+  const [userData, setUserData] = useState({
+    name: 'User', // Default until fetched
+    currentWeight: 95.8,
+    calorieGoal: 1800,
+    steps: 4500,
+  });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth().currentUser;
+      if (!user) {
+        console.log('No user logged in');
+        navigation.navigate('Login');
+        return;
+      }
+
+      try {
+        // Get name from Firebase Auth
+        const userName = user.displayName || 'User';
+        console.log('Fetched name from Auth:', userName);
+
+        // Optionally fetch additional data from Firestore
+        const userDoc = await firestore().collection('users').doc(user.uid).get();
+        if (userDoc.exists) {
+          const firestoreData = userDoc.data();
+          setUserData({
+            name: userName, // Use Auth name; override with firestoreData.name if preferred
+            currentWeight: firestoreData.healthAssessment?.Weight || 95.8,
+            calorieGoal: firestoreData.calorieGoal || 1800,
+            steps: firestoreData.steps || 4500,
+          });
+        } else {
+          setUserData(prev => ({ ...prev, name: userName }));
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error.message);
+        setUserData(prev => ({ ...prev, name: 'User' }));
+      }
+    };
+
+    fetchUserData();
+  }, [navigation]);
 
   return (
     <ScrollView style={styles.container}>
-      {/* Greeting Section */}
       <View style={styles.greetingSection}>
         <Text style={styles.greetingText}>Hi {userData.name}!</Text>
         <Text style={styles.subtitle}>Your personalized health hub</Text>
       </View>
 
-      {/* Quick Stats */}
       <View style={styles.quickStats}>
         <View style={styles.statCard}>
-          <Icon name="weight" size={24} color="#3b82f6" />
+          <Icon name="weight" size={24} color="#34C759" />
           <Text style={styles.statValue}>{userData.currentWeight} kg</Text>
           <Text style={styles.statLabel}>Weight</Text>
         </View>
         <View style={styles.statCard}>
-          <Icon name="fire" size={24} color="#3b82f6" />
+          <Icon name="fire" size={24} color="#34C759" />
           <Text style={styles.statValue}>{userData.calorieGoal} kcal</Text>
           <Text style={styles.statLabel}>Calorie Goal</Text>
         </View>
         <View style={styles.statCard}>
-          <Icon name="shoe-prints" size={24} color="#3b82f6" />
+          <Icon name="shoe-prints" size={24} color="#34C759" />
           <Text style={styles.statValue}>{userData.steps}</Text>
           <Text style={styles.statLabel}>Steps</Text>
         </View>
       </View>
 
-      {/* Navigation Tiles */}
       <View style={styles.tilesContainer}>
-        <TouchableOpacity
-          style={styles.tile}
-          onPress={() => navigation.navigate('ExerciseScreen')}
-        >
-          <Icon name="dumbbell" size={30} color="#3b82f6" />
-          <Text style={styles.tileText}>Today’s Workout</Text>
+        <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('ExerciseScreen')}>
+          <View style={styles.tileContent}>
+            <Icon name="dumbbell" size={40} color="#3B82F6" />
+            <View style={styles.tileTextContainer}>
+              <Text style={styles.tileText}>Today’s Workout</Text>
+              <Text style={styles.tileSubtitle}>Get moving now!</Text>
+            </View>
+            <Icon name="chevron-right" size={20} color="#3B82F6" />
+          </View>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.tile}
-          onPress={() => navigation.navigate('NutritionScreen')}
-        >
-          <Icon name="apple-alt" size={30} color="#3b82f6" />
-          <Text style={styles.tileText}>Meal Plan</Text>
+        <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('NutritionScreen')}>
+          <View style={styles.tileContent}>
+            <Icon name="apple-alt" size={40} color="#3B82F6" />
+            <View style={styles.tileTextContainer}>
+              <Text style={styles.tileText}>Meal Plan</Text>
+              <Text style={styles.tileSubtitle}>Fuel your day!</Text>
+            </View>
+            <Icon name="chevron-right" size={20} color="#3B82F6" />
+          </View>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.tile}
-          onPress={() => navigation.navigate('ProgressTrackingScreen')}
-        >
-          <Icon name="chart-line" size={30} color="#3b82f6" />
-          <Text style={styles.tileText}>Track Progress</Text>
+        <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('ProfileScreen')}>
+          <View style={styles.tileContent}>
+            <Icon name="chart-line" size={40} color="#3B82F6" />
+            <View style={styles.tileTextContainer}>
+              <Text style={styles.tileText}>Track Progress</Text>
+              <Text style={styles.tileSubtitle}>See your gains!</Text>
+            </View>
+            <Icon name="chevron-right" size={20} color="#3B82F6" />
+          </View>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.tile}
-          onPress={() => navigation.navigate('MotivationScreen')}
-        >
-          <Icon name="star" size={30} color="#3b82f6" />
-          <Text style={styles.tileText}>Motivation</Text>
+        <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('MotivationScreen')}>
+          <View style={styles.tileContent}>
+            <Icon name="star" size={40} color="#3B82F6" />
+            <View style={styles.tileTextContainer}>
+              <Text style={styles.tileText}>Motivation</Text>
+              <Text style={styles.tileSubtitle}>Stay inspired!</Text>
+            </View>
+            <Icon name="chevron-right" size={20} color="#3B82F6" />
+          </View>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -1094,22 +1604,22 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3f4f6',
+    backgroundColor: '#F5F5F5',
   },
   greetingSection: {
     padding: 20,
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#3B82F6',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
   greetingText: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#F5F5F5',
   },
   subtitle: {
     fontSize: 16,
-    color: '#fff',
+    color: '#F5F5F5',
     opacity: 0.9,
     marginTop: 4,
   },
@@ -1119,52 +1629,62 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   statCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     padding: 12,
     borderRadius: 12,
     alignItems: 'center',
     width: '30%',
-    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 2,
+    elevation: 8,
   },
   statValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#3b82f6',
+    color: '#333333',
     marginTop: 8,
   },
   statLabel: {
     fontSize: 14,
-    color: '#6b7280',
+    color: '#666666',
     marginTop: 4,
   },
   tilesContainer: {
     padding: 16,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
   },
   tile: {
-    width: '48%',
-    backgroundColor: '#fff',
-    padding: 20,
+    width: '100%',
+    height: 100,
+    backgroundColor: '#FFFFFF',
     borderRadius: 16,
-    alignItems: 'center',
     marginBottom: 16,
-    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 2,
+    elevation: 8,
+  },
+  tileContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 20,
+    flex: 1,
+  },
+  tileTextContainer: {
+    flex: 1,
+    marginLeft: 16,
   },
   tileText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
-    color: '#3b82f6',
-    marginTop: 12,
+    color: '#3B82F6',
+  },
+  tileSubtitle: {
+    fontSize: 14,
+    color: '#666666',
+    marginTop: 4,
   },
 });
 

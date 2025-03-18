@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: fontSizes.fontXXXLarge,
     fontWeight: 'bold',
-    color: colors.black,
+    color: '#3B82F6',
   },
   mainContainer: {
     width: '100%',
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   resetButton: {
-    backgroundColor: 'black',
+    backgroundColor: '#3B82F6',
     width: '100%',
     borderRadius: 12,
     padding: 15,

@@ -44,6 +44,11 @@ const ProfileScreen = ({ navigation }) => {
     setEditMode(prev => !prev);
   };
 
+  const handleLogout = async () => {
+    await auth().signOut();
+    navigation.navigate('Login');
+  };
+
   const saveChanges = async () => {
     const user = auth().currentUser;
     if (!user) return;
@@ -229,6 +234,12 @@ const ProfileScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backButtonText}>Back to Home</Text>
       </TouchableOpacity>
+
+     
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutButtonText}>Log Out</Text>
+        </TouchableOpacity>
+
     </ScrollView>
   );
 };
@@ -341,6 +352,19 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 18,
     color: '#333333',
+  },
+  logoutButton: {
+    marginHorizontal: 16,
+    marginVertical: 12,
+    padding: 14,
+    backgroundColor: '#EF4444',
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  logoutButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
 });
 

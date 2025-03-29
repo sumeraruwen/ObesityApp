@@ -1,240 +1,18 @@
 // import React, { useState, useEffect } from 'react';
-// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+// import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 // import Icon from 'react-native-vector-icons/FontAwesome5';
 // import auth from '@react-native-firebase/auth';
 // import firestore from '@react-native-firebase/firestore';
+// import PushNotification from 'react-native-push-notification';
 
 // const NutritionScreen = ({ navigation }) => {
 //   const [mealSuggestion, setMealSuggestion] = useState(null);
 //   const [waterIntake, setWaterIntake] = useState(0);
 //   const [loading, setLoading] = useState(true);
+//   const [mood, setMood] = useState(null);
+//   const [suggestion, setSuggestion] = useState('');
 //   const targetWaterIntake = 8;
 
-//   useEffect(() => {
-//     const fetchUserData = async () => {
-//       const user = auth().currentUser;
-//       console.log('Current user:', user ? user.uid : 'No user logged in');
-//       if (!user) {
-//         console.log('Redirecting to Login - No user authenticated');
-//         navigation.navigate('Login');
-//         return;
-//       }
-
-//       try {
-//         const doc = await firestore().collection('users').doc(user.uid).get();
-//         if (doc.exists) {
-//           const data = doc.data().healthAssessment;
-//           console.log('Firestore data:', data);
-//           await fetchMealPrediction(data);
-//         } else {
-//           console.log('No health assessment found for user:', user.uid);
-//           setMealSuggestion({ name: 'Default Meal: Grilled Chicken Salad', calories: 450 });
-//         }
-//       } catch (error) {
-//         console.error('Firestore fetch error:', error.message);
-//         setMealSuggestion({ name: 'Default Meal: Grilled Chicken Salad', calories: 450 });
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchUserData();
-//   }, [navigation]);
-
-//   const fetchMealPrediction = async (userData) => {
-//     try {
-//       const apiUrl = 'http://192.168.1.102:5000/predict_meal';
-//       console.log('Fetching meal prediction from:', apiUrl);
-
-//       const payload = {
-//         Height: parseFloat(userData.Height),
-//         Weight: parseFloat(userData.Weight),
-//         Age: parseInt(userData.Age, 10),
-//         Gender: userData.Gender,
-//         Activity_Level: userData.Activity_Level,
-//         Goal: userData.Goal,
-//         Health_Condition: userData.Health_Condition === 'None' ? 'None' : userData.Health_Condition,
-//         Dietary_Preference: userData.Dietary_Preference,
-//         Food_Allergy: userData.Food_Allergy === 'No Allergies' ? 'No Allergies' : userData.Food_Allergy,
-//       };
-//       console.log('Sending data to API:', JSON.stringify(payload, null, 2));
-
-//       const response = await fetch(apiUrl, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(payload),
-//       });
-
-//       console.log('API response status:', response.status);
-//       if (!response.ok) {
-//         const errorText = await response.text();
-//         throw new Error(`API error: ${response.status} - ${errorText}`);
-//       }
-
-//       const result = await response.json();
-//       console.log('API response data:', result);
-//       setMealSuggestion({
-//         name: result.meal,
-//         calories: Math.round(Math.random() * 300) + 300,
-//       });
-//     } catch (error) {
-//       console.error('Fetch meal prediction error:', error.message);
-//       setMealSuggestion({ name: 'Default Meal: Grilled Chicken Salad', calories: 450 });
-//     }
-//   };
-
-//   // New water tracker with glass icons
-//   const renderWaterTracker = () => (
-//     <View style={styles.waterTrackerCard}>
-//       <View style={styles.waterHeader}>
-//         <Icon name="tint" size={24} color="#3B82F6" />
-//         <Text style={styles.cardTitle}>Water Intake</Text>
-//       </View>
-//       <View style={styles.waterGlasses}>
-//         {[...Array(targetWaterIntake)].map((_, index) => (
-//           <TouchableOpacity
-//             key={index}
-//             onPress={() => setWaterIntake(index + 1)}
-//             style={styles.glassContainer}
-//           >
-//             <Icon
-//               name="glass-whiskey"
-//               size={24}
-//               color={index < waterIntake ? '#3B82F6' : '#E5E7EB'}
-//             />
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-//       <Text style={styles.waterText}>
-//         {waterIntake} of {targetWaterIntake} glasses
-//       </Text>
-//     </View>
-//   );
-
-//   return (
-//     <ScrollView style={styles.container}>
-//       <View style={styles.header}>
-//         <Text style={styles.headerText}>Your Meal Plan</Text>
-//         <Text style={styles.subtitle}>Tailored for your goals</Text>
-//       </View>
-//       {loading ? (
-//         <Text style={styles.loadingText}>Loading your meal plan...</Text>
-//       ) : mealSuggestion ? (
-//         <View style={styles.mealCard}>
-//           <Icon name="utensils" size={24} color="#3B82F6" />
-//           <Text style={styles.mealName}>{mealSuggestion.name}</Text>
-//           <Text style={styles.mealCalories}>{mealSuggestion.calories} kcal</Text>
-//           <TouchableOpacity style={styles.logButton} onPress={() => alert(`${mealSuggestion.name} logged!`)}>
-//             <Text style={styles.logButtonText}>Log</Text>
-//           </TouchableOpacity>
-//         </View>
-//       ) : (
-//         <Text style={styles.loadingText}>Failed to load meal plan</Text>
-//       )}
-//       {renderWaterTracker()}
-//       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomeScreen')}>
-//         <Text style={styles.backButtonText}>Back to Home</Text>
-//       </TouchableOpacity>
-//     </ScrollView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, backgroundColor: '#F5F5F5' },
-//   header: { padding: 20, backgroundColor: '#3B82F6', borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
-//   headerText: { fontSize: 28, fontWeight: 'bold', color: '#F5F5F5' },
-//   subtitle: { fontSize: 16, color: '#F5F5F5', opacity: 0.9, marginTop: 4 },
-//   mealCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 12, 
-//     flexDirection: 'row', 
-//     alignItems: 'center', 
-//     justifyContent: 'space-between', 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   mealName: { fontSize: 16, fontWeight: '600', color: '#333333', flex: 1, marginLeft: 12 },
-//   mealCalories: { fontSize: 14, color: '#666666', marginRight: 12 },
-//   logButton: { backgroundColor: '#3B82F6', paddingVertical: 6, paddingHorizontal: 16, borderRadius: 6 },
-//   logButtonText: { color: '#F5F5F5', fontSize: 14, fontWeight: '600' },
-//   waterTrackerCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 16, 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   waterHeader: { 
-//     flexDirection: 'row', 
-//     alignItems: 'center', 
-//     marginBottom: 12 
-//   },
-//   cardTitle: { 
-//     fontSize: 20, 
-//     fontWeight: 'bold', 
-//     color: '#3B82F6', 
-//     marginLeft: 8 
-//   },
-//   waterGlasses: { 
-//     flexDirection: 'row', 
-//     flexWrap: 'wrap', 
-//     justifyContent: 'center', 
-//     marginBottom: 12 
-//   },
-//   glassContainer: { 
-//     padding: 4 
-//   },
-//   waterText: { 
-//     fontSize: 16, 
-//     color: '#333333', 
-//     textAlign: 'center' 
-//   },
-//   backButton: { 
-//     margin: 16, 
-//     padding: 12, 
-//     backgroundColor: '#FFFFFF', 
-//     borderRadius: 8, 
-//     alignItems: 'center' 
-//   },
-//   backButtonText: { 
-//     fontSize: 16, 
-//     color: '#3B82F6', 
-//     fontWeight: '600' 
-//   },
-//   loadingText: { 
-//     textAlign: 'center', 
-//     fontSize: 16, 
-//     color: '#666666', 
-//     margin: 20 
-//   },
-// });
-
-// export default NutritionScreen;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-// import Icon from 'react-native-vector-icons/FontAwesome5';
-// import auth from '@react-native-firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
-
-// const NutritionScreen = ({ navigation }) => {
-//   const [mealSuggestion, setMealSuggestion] = useState(null);
-//   const [waterIntake, setWaterIntake] = useState(0);
-//   const [loading, setLoading] = useState(true);
-//   const [mood, setMood] = useState(null); // Track selected mood
-//   const [suggestion, setSuggestion] = useState(''); // Display suggestion
-//   const targetWaterIntake = 8;
-
-//   // Mood options with icons and suggestions
 //   const moods = [
 //     { name: 'Happy', icon: 'smile', suggestion: 'Great mood! Enjoy your meal mindfully.' },
 //     { name: 'Sad', icon: 'sad-tear', suggestion: 'Treat yourself to a healthy comfort food.' },
@@ -242,598 +20,143 @@
 //     { name: 'Stressed', icon: 'frown', suggestion: 'Try a 5-min deep breathing exercise before eating.' },
 //   ];
 
+//   // Configure Push Notifications
 //   useEffect(() => {
-//     const fetchUserData = async () => {
-//       const user = auth().currentUser;
-//       console.log('Current user:', user ? user.uid : 'No user logged in');
-//       if (!user) {
-//         console.log('Redirecting to Login - No user authenticated');
-//         navigation.navigate('Login');
-//         return;
-//       }
+//     console.log('Configuring PushNotification');
+//     PushNotification.configure({
+//       onNotification: (notification) => {
+//         console.log('Notification received:', notification);
+//       },
+//       requestPermissions: true,
+//     });
 
-//       try {
-//         const doc = await firestore().collection('users').doc(user.uid).get();
-//         if (doc.exists) {
-//           const data = doc.data().healthAssessment;
-//           console.log('Firestore data:', data);
-//           await fetchMealPrediction(data);
-//         } else {
-//           console.log('No health assessment found for user:', user.uid);
-//           setMealSuggestion({ name: 'Default Meal: Grilled Chicken Salad', calories: 450 });
+//     PushNotification.checkPermissions((permissions) => {
+//       console.log('Notification permissions:', permissions);
+//       if (!permissions.alert) {
+//         PushNotification.requestPermissions();
+//       }
+//     });
+//   }, []);
+
+//   // Daily Reset at Midnight
+//   useEffect(() => {
+//     const checkReset = async () => {
+//       const now = new Date();
+//       if (now.getHours() === 0 && now.getMinutes() === 0) {
+//         const user = auth().currentUser;
+//         if (user) {
+//           const today = new Date().toISOString().split('T')[0];
+//           setWaterIntake(0);
+//           await firestore()
+//             .collection('users')
+//             .doc(user.uid)
+//             .collection('water_logs')
+//             .doc(today)
+//             .set({ cups: 0, timestamp: firestore.Timestamp.now() }, { merge: true });
+//           console.log('Water intake reset at midnight');
+//           PushNotification.cancelLocalNotifications({ id: '12345' });
 //         }
-//       } catch (error) {
-//         console.error('Firestore fetch error:', error.message);
-//         setMealSuggestion({ name: 'Default Meal: Grilled Chicken Salad', calories: 450 });
-//       } finally {
-//         setLoading(false);
 //       }
 //     };
-//     fetchUserData();
+
+//     const interval = setInterval(checkReset, 60000);
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   // Fetch data on screen focus
+//   useEffect(() => {
+//     const unsubscribe = navigation.addListener('focus', () => {
+//       fetchUserData();
+//       fetchWaterIntake();
+//     });
+//     return unsubscribe;
 //   }, [navigation]);
 
-//   const fetchMealPrediction = async (userData) => {
-//     try {
-//       const apiUrl = 'http://192.168.1.102:5000/predict_meal';
-//       console.log('Fetching meal prediction from:', apiUrl);
+//   // Temporary 10-second notification interval
+//   useEffect(() => {
+//     let intervalId;
 
-//       const payload = {
-//         Height: parseFloat(userData.Height),
-//         Weight: parseFloat(userData.Weight),
-//         Age: parseInt(userData.Age, 10),
-//         Gender: userData.Gender,
-//         Activity_Level: userData.Activity_Level,
-//         Goal: userData.Goal,
-//         Health_Condition: userData.Health_Condition === 'None' ? 'None' : userData.Health_Condition,
-//         Dietary_Preference: userData.Dietary_Preference,
-//         Food_Allergy: userData.Food_Allergy === 'No Allergies' ? 'No Allergies' : userData.Food_Allergy,
-//       };
-//       console.log('Sending data to API:', JSON.stringify(payload, null, 2));
+//     const startReminderInterval = () => {
+//       intervalId = setInterval(() => {
+//         const remainingCups = targetWaterIntake - waterIntake;
+//         if (remainingCups <= 0) {
+//           console.log('Goal met, stopping reminders');
+//           clearInterval(intervalId);
+//           PushNotification.cancelLocalNotifications({ id: '12345' });
+//           return;
+//         }
 
-//       const response = await fetch(apiUrl, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(payload),
-//       });
+//         console.log('Sending reminder for', remainingCups, 'cups remaining');
+//         PushNotification.localNotification({
+//           channelId: "default_channel_id",
+//           title: "Water Reminder",
+//           message: `Stay hydrated! You still need ${remainingCups} cup${remainingCups > 1 ? 's' : ''} today.`,
+//           playSound: true,
+//           vibrate: true,
+//           priority: 'high',
+//           id: '12345',
+//         });
+//       // }, 10 * 1000); // Every 10 seconds
+//      }, 60 * 60 * 1000);
+//     };
 
-//       console.log('API response status:', response.status);
-//       if (!response.ok) {
-//         const errorText = await response.text();
-//         throw new Error(`API error: ${response.status} - ${errorText}`);
+//     if (waterIntake > 0) {
+//       console.log('Starting reminder interval');
+//       startReminderInterval();
+//     }
+
+//     return () => {
+//       if (intervalId) {
+//         console.log('Cleaning up reminder interval');
+//         clearInterval(intervalId);
 //       }
+//     };
+//   }, [waterIntake]);
 
-//       const result = await response.json();
-//       console.log('API response data:', result);
-//       setMealSuggestion({
-//         name: result.meal,
-//         calories: Math.round(Math.random() * 300) + 300,
-//       });
+//   const fetchUserData = async () => {
+//     const user = auth().currentUser;
+//     if (!user) {
+//       navigation.navigate('Login');
+//       return;
+//     }
+
+//     try {
+//       const doc = await firestore().collection('users').doc(user.uid).get();
+//       if (doc.exists) {
+//         const data = doc.data().healthAssessment;
+//         console.log('Firestore healthAssessment:', data);
+//         await fetchMealPrediction(data);
+//       } else {
+//         setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
+//       }
 //     } catch (error) {
-//       console.error('Fetch meal prediction error:', error.message);
-//       setMealSuggestion({ name: 'Default Meal: Grilled Chicken Salad', calories: 450 });
+//       console.error('Firestore fetch error:', error.message);
+//       setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
+//     } finally {
+//       setLoading(false);
 //     }
 //   };
 
-//   // Log meal with mood to Firestore and show suggestion
-//   const handleMoodSelection = async (selectedMood) => {
+//   const fetchWaterIntake = async () => {
 //     const user = auth().currentUser;
 //     if (!user) return;
 
-//     setMood(selectedMood.name);
-//     setSuggestion(selectedMood.suggestion); // Show suggestion immediately
-
-//     // Auto-log meal with mood
 //     try {
-//       const moodData = {
-//         mood: selectedMood.name,
-//         meal: mealSuggestion.name,
-//         calories: mealSuggestion.calories,
-//         timestamp: firestore.Timestamp.now(),
-//       };
-//       await firestore().collection('users').doc(user.uid).collection('mood_logs').add(moodData);
-//       console.log('Meal logged with mood:', moodData);
-//     } catch (error) {
-//       console.error('Error logging meal with mood:', error.message);
-//     }
-//   };
+//       const today = new Date().toISOString().split('T')[0];
+//       const docRef = await firestore()
+//         .collection('users')
+//         .doc(user.uid)
+//         .collection('water_logs')
+//         .doc(today)
+//         .get();
 
-//   // Render simplified mood picker with emojis only
-//   const renderMoodPicker = () => (
-//     <View style={styles.moodPickerCard}>
-//       <Text style={styles.cardTitle}>How are you feeling?</Text>
-//       <View style={styles.moodOptions}>
-//         {moods.map(moodOption => (
-//           <TouchableOpacity
-//             key={moodOption.name}
-//             style={[styles.moodButton, mood === moodOption.name && styles.moodButtonSelected]}
-//             onPress={() => handleMoodSelection(moodOption)}
-//           >
-//             <Icon
-//               name={moodOption.icon}
-//               size={30}
-//               color={mood === moodOption.name ? '#FFFFFF' : '#3B82F6'}
-//             />
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-//       {suggestion ? (
-//         <Text style={styles.suggestionText}>{suggestion}</Text>
-//       ) : null}
-//     </View>
-//   );
-
-//   // Water tracker (unchanged)
-//   const renderWaterTracker = () => (
-//     <View style={styles.waterTrackerCard}>
-//       <View style={styles.waterHeader}>
-//         <Icon name="tint" size={24} color="#3B82F6" />
-//         <Text style={styles.cardTitle}>Water Intake</Text>
-//       </View>
-//       <View style={styles.waterGlasses}>
-//         {[...Array(targetWaterIntake)].map((_, index) => (
-//           <TouchableOpacity
-//             key={index}
-//             onPress={() => setWaterIntake(index + 1)}
-//             style={styles.glassContainer}
-//           >
-//             <Icon
-//               name="glass-whiskey"
-//               size={24}
-//               color={index < waterIntake ? '#3B82F6' : '#E5E7EB'}
-//             />
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-//       <Text style={styles.waterText}>
-//         {waterIntake} of {targetWaterIntake} glasses
-//       </Text>
-//     </View>
-//   );
-
-//   return (
-//     <ScrollView style={styles.container}>
-//       <View style={styles.header}>
-//         <Text style={styles.headerText}>Your Meal Plan</Text>
-//         <Text style={styles.subtitle}>Tailored for your goals</Text>
-//       </View>
-//       {loading ? (
-//         <Text style={styles.loadingText}>Loading your meal plan...</Text>
-//       ) : mealSuggestion ? (
-//         <View style={styles.mealCard}>
-//           <Icon name="utensils" size={24} color="#3B82F6" />
-//           <Text style={styles.mealName}>{mealSuggestion.name}</Text>
-//           <Text style={styles.mealCalories}>{mealSuggestion.calories} kcal</Text>
-//           {/* Removed Log button since emoji click handles logging */}
-//         </View>
-//       ) : (
-//         <Text style={styles.loadingText}>Failed to load meal plan</Text>
-//       )}
-//       {renderMoodPicker()}
-//       {renderWaterTracker()}
-//       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomeScreen')}>
-//         <Text style={styles.backButtonText}>Back to Home</Text>
-//       </TouchableOpacity>
-//     </ScrollView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, backgroundColor: '#F5F5F5' },
-//   header: { padding: 20, backgroundColor: '#3B82F6', borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
-//   headerText: { fontSize: 28, fontWeight: 'bold', color: '#F5F5F5' },
-//   subtitle: { fontSize: 16, color: '#F5F5F5', opacity: 0.9, marginTop: 4 },
-//   mealCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 12, 
-//     flexDirection: 'row', 
-//     alignItems: 'center', 
-//     justifyContent: 'space-between', 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   mealName: { fontSize: 16, fontWeight: '600', color: '#333333', flex: 1, marginLeft: 12 },
-//   mealCalories: { fontSize: 14, color: '#666666', marginRight: 12 },
-//   moodPickerCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 16, 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   cardTitle: { 
-//     fontSize: 20, 
-//     fontWeight: 'bold', 
-//     color: '#3B82F6', 
-//     marginBottom: 12, 
-//     textAlign: 'center' 
-//   },
-//   moodOptions: { 
-//     flexDirection: 'row', 
-//     justifyContent: 'space-around' 
-//   },
-//   moodButton: { 
-//     alignItems: 'center', 
-//     padding: 10, 
-//     borderWidth: 1, 
-//     borderColor: '#3B82F6', 
-//     borderRadius: 50, 
-//     width: 60, 
-//     height: 60, 
-//     justifyContent: 'center' 
-//   },
-//   moodButtonSelected: { 
-//     backgroundColor: '#3B82F6', 
-//     borderColor: '#3B82F6' 
-//   },
-//   suggestionText: { 
-//     fontSize: 16, 
-//     color: '#333333', 
-//     textAlign: 'center', 
-//     marginTop: 12 
-//   },
-//   waterTrackerCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 16, 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   waterHeader: { 
-//     flexDirection: 'row', 
-//     alignItems: 'center', 
-//     marginBottom: 12 
-//   },
-//   waterGlasses: { 
-//     flexDirection: 'row', 
-//     flexWrap: 'wrap', 
-//     justifyContent: 'center', 
-//     marginBottom: 12 
-//   },
-//   glassContainer: { 
-//     padding: 4 
-//   },
-//   waterText: { 
-//     fontSize: 16, 
-//     color: '#333333', 
-//     textAlign: 'center' 
-//   },
-//   backButton: { 
-//     margin: 16, 
-//     padding: 12, 
-//     backgroundColor: '#FFFFFF', 
-//     borderRadius: 8, 
-//     alignItems: 'center' 
-//   },
-//   backButtonText: { 
-//     fontSize: 16, 
-//     color: '#3B82F6', 
-//     fontWeight: '600' 
-//   },
-//   loadingText: { 
-//     textAlign: 'center', 
-//     fontSize: 16, 
-//     color: '#666666', 
-//     margin: 20 
-//   },
-// });
-
-// export default NutritionScreen;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-// import Icon from 'react-native-vector-icons/FontAwesome5';
-// import auth from '@react-native-firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
-
-// const NutritionScreen = ({ navigation }) => {
-//   const [mealSuggestion, setMealSuggestion] = useState(null);
-//   const [waterIntake, setWaterIntake] = useState(0);
-//   const [loading, setLoading] = useState(true);
-//   const [mood, setMood] = useState(null);
-//   const [suggestion, setSuggestion] = useState('');
-//   const targetWaterIntake = 8;
-
-//   const moods = [
-//     { name: 'Happy', icon: 'smile', suggestion: 'Great mood! Enjoy your meal mindfully.' },
-//     { name: 'Sad', icon: 'sad-tear', suggestion: 'Treat yourself to a healthy comfort food.' },
-//     { name: 'Bored', icon: 'meh', suggestion: 'How about a quick walk instead of snacking?' },
-//     { name: 'Stressed', icon: 'frown', suggestion: 'Try a 5-min deep breathing exercise before eating.' },
-//   ];
-
-//   useEffect(() => {
-//     const fetchUserData = async () => {
-//       const user = auth().currentUser;
-//       if (!user) {
-//         navigation.navigate('Login');
-//         return;
-//       }
-
-//       try {
-//         const doc = await firestore().collection('users').doc(user.uid).get();
-//         if (doc.exists) {
-//           const data = doc.data().healthAssessment;
-//           console.log('Firestore healthAssessment:', data); // Debugging
-//           await fetchMealPrediction(data);
-//         } else {
-//           setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
-//         }
-//       } catch (error) {
-//         console.error('Firestore fetch error:', error.message);
-//         setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchUserData();
-//   }, [navigation]);
-
-//   const fetchMealPrediction = async (userData) => {
-//     try {
-//       // Filter only required fields for the model
-//       const filteredData = {
-//         Height: userData.Height,
-//         Weight: userData.Weight,
-//         Age: userData.Age,
-//         Gender: userData.Gender,
-//         Activity_Level: userData.Activity_Level,
-//         Goal: userData.Goal,
-//         Health_Condition: userData.Health_Condition,
-//         Dietary_Preference: userData.Dietary_Preference,
-//         Food_Allergy: userData.Food_Allergy,
-//       };
-//       console.log('Sending to API:', filteredData); // Debugging
-
-//       const response = await fetch('http://192.168.1.101:5000/predict_meal', {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(filteredData),
-//       });
-//       const result = await response.json();
-//       if (response.ok) {
-//         setMealSuggestion({
-//           name: result.meal,
-//           calories: result.calories,
-//           details: result.details,
-//         });
+//       if (docRef.exists) {
+//         setWaterIntake(docRef.data().cups || 0);
 //       } else {
-//         throw new Error(result.error || 'API error');
+//         setWaterIntake(0);
 //       }
 //     } catch (error) {
-//       console.error('Fetch meal error:', error.message);
-//       setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
-//     }
-//   };
-
-//   const handleMoodSelection = async (selectedMood) => {
-//     const user = auth().currentUser;
-//     if (!user || !mealSuggestion) return;
-
-//     setMood(selectedMood.name);
-//     setSuggestion(selectedMood.suggestion);
-
-//     try {
-//       await firestore().collection('users').doc(user.uid).collection('mood_logs').add({
-//         mood: selectedMood.name,
-//         meal: mealSuggestion.name,
-//         calories: mealSuggestion.calories,
-//         timestamp: firestore.Timestamp.now(),
-//       });
-//     } catch (error) {
-//       console.error('Error logging mood:', error.message);
-//     }
-//   };
-
-//   const renderMoodPicker = () => (
-//     <View style={styles.moodPickerCard}>
-//       <Text style={styles.cardTitle}>How are you feeling?</Text>
-//       <View style={styles.moodOptions}>
-//         {moods.map(moodOption => (
-//           <TouchableOpacity
-//             key={moodOption.name}
-//             style={[styles.moodButton, mood === moodOption.name && styles.moodButtonSelected]}
-//             onPress={() => handleMoodSelection(moodOption)}
-//           >
-//             <Icon
-//               name={moodOption.icon}
-//               size={30}
-//               color={mood === moodOption.name ? '#FFFFFF' : '#3B82F6'}
-//             />
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-//       {suggestion ? <Text style={styles.suggestionText}>{suggestion}</Text> : null}
-//     </View>
-//   );
-
-//   const renderWaterTracker = () => (
-//     <View style={styles.waterTrackerCard}>
-//       <View style={styles.waterHeader}>
-//         <Icon name="tint" size={24} color="#3B82F6" />
-//         <Text style={styles.cardTitle}>Water Intake</Text>
-//       </View>
-//       <View style={styles.waterGlasses}>
-//         {[...Array(targetWaterIntake)].map((_, index) => (
-//           <TouchableOpacity
-//             key={index}
-//             onPress={() => setWaterIntake(index + 1)}
-//             style={styles.glassContainer}
-//           >
-//             <Icon
-//               name="glass-whiskey"
-//               size={24}
-//               color={index < waterIntake ? '#3B82F6' : '#E5E7EB'}
-//             />
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-//       <Text style={styles.waterText}>
-//         {waterIntake} of {targetWaterIntake} glasses
-//       </Text>
-//     </View>
-//   );
-
-//   return (
-//     <ScrollView style={styles.container}>
-//       <View style={styles.header}>
-//         <Text style={styles.headerText}>Your Meal Plan</Text>
-//         <Text style={styles.subtitle}>Tailored for your goals</Text>
-//       </View>
-//       {loading ? (
-//         <Text style={styles.loadingText}>Loading your meal plan...</Text>
-//       ) : mealSuggestion ? (
-//         <View style={styles.mealCard}>
-//           <Icon name="utensils" size={24} color="#3B82F6" />
-//           <View style={styles.mealInfo}>
-//             <Text style={styles.mealName}>{mealSuggestion.name}</Text>
-//             <Text style={styles.mealCalories}>{mealSuggestion.calories} kcal</Text>
-//             <Text style={styles.mealDetails}>{mealSuggestion.details}</Text>
-//           </View>
-//         </View>
-//       ) : (
-//         <Text style={styles.loadingText}>Failed to load meal plan</Text>
-//       )}
-//       {renderMoodPicker()}
-//       {renderWaterTracker()}
-//       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomeScreen')}>
-//         <Text style={styles.backButtonText}>Back to Home</Text>
-//       </TouchableOpacity>
-//     </ScrollView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, backgroundColor: '#F5F5F5' },
-//   header: { padding: 20, backgroundColor: '#3B82F6', borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
-//   headerText: { fontSize: 28, fontWeight: 'bold', color: '#F5F5F5' },
-//   subtitle: { fontSize: 16, color: '#F5F5F5', opacity: 0.9, marginTop: 4 },
-//   mealCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 12, 
-//     flexDirection: 'row', 
-//     alignItems: 'center', 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   mealInfo: { flex: 1, marginLeft: 12 },
-//   mealName: { fontSize: 16, fontWeight: '600', color: '#333333' },
-//   mealCalories: { fontSize: 14, color: '#666666', marginTop: 4 },
-//   mealDetails: { fontSize: 14, color: '#666666', marginTop: 8 },
-//   moodPickerCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 16, 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   cardTitle: { fontSize: 20, fontWeight: 'bold', color: '#3B82F6', marginBottom: 12, textAlign: 'center' },
-//   moodOptions: { flexDirection: 'row', justifyContent: 'space-around' },
-//   moodButton: { 
-//     alignItems: 'center', 
-//     padding: 10, 
-//     borderWidth: 1, 
-//     borderColor: '#3B82F6', 
-//     borderRadius: 50, 
-//     width: 60, 
-//     height: 60, 
-//     justifyContent: 'center' 
-//   },
-//   moodButtonSelected: { backgroundColor: '#3B82F6', borderColor: '#3B82F6' },
-//   suggestionText: { fontSize: 16, color: '#333333', textAlign: 'center', marginTop: 12 },
-//   waterTrackerCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 16, 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   waterHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
-//   waterGlasses: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginBottom: 12 },
-//   glassContainer: { padding: 4 },
-//   waterText: { fontSize: 16, color: '#333333', textAlign: 'center' },
-//   backButton: { margin: 16, padding: 12, backgroundColor: '#FFFFFF', borderRadius: 8, alignItems: 'center' },
-//   backButtonText: { fontSize: 16, color: '#3B82F6', fontWeight: '600' },
-//   loadingText: { textAlign: 'center', fontSize: 16, color: '#666666', margin: 20 },
-// });
-
-// export default NutritionScreen;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-// import Icon from 'react-native-vector-icons/FontAwesome5';
-// import auth from '@react-native-firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
-
-// const NutritionScreen = ({ navigation }) => {
-//   const [mealSuggestion, setMealSuggestion] = useState(null);
-//   const [waterIntake, setWaterIntake] = useState(0);
-//   const [loading, setLoading] = useState(true);
-//   const [mood, setMood] = useState(null);
-//   const [suggestion, setSuggestion] = useState('');
-//   const targetWaterIntake = 8;
-
-//   const moods = [
-//     { name: 'Happy', icon: 'smile', suggestion: 'Great mood! Enjoy your meal mindfully.' },
-//     { name: 'Sad', icon: 'sad-tear', suggestion: 'Treat yourself to a healthy comfort food.' },
-//     { name: 'Bored', icon: 'meh', suggestion: 'How about a quick walk instead of snacking?' },
-//     { name: 'Stressed', icon: 'frown', suggestion: 'Try a 5-min deep breathing exercise before eating.' },
-//   ];
-
-//   useEffect(() => {
-//     const unsubscribe = navigation.addListener('focus', () => {
-//       fetchUserData();
-//     });
-//     return unsubscribe;
-//   }, [navigation]);
-
-//   const fetchUserData = async () => {
-//     const user = auth().currentUser;
-//     if (!user) {
-//       navigation.navigate('Login');
-//       return;
-//     }
-
-//     try {
-//       const doc = await firestore().collection('users').doc(user.uid).get();
-//       if (doc.exists) {
-//         const data = doc.data().healthAssessment;
-//         console.log('Firestore healthAssessment:', data);
-//         await fetchMealPrediction(data);
-//       } else {
-//         setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
-//       }
-//     } catch (error) {
-//       console.error('Firestore fetch error:', error.message);
-//       setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
-//     } finally {
-//       setLoading(false);
+//       console.error('Error fetching water intake:', error.message);
 //     }
 //   };
 
@@ -852,263 +175,7 @@
 //       };
 //       console.log('Sending to API:', filteredData);
 
-//       const response = await fetch('http://192.168.1.101:5000/predict_meal', {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(filteredData),
-//       });
-//       if (!response.ok) {
-//         const errorText = await response.text();
-//         throw new Error(`Network response not ok: ${response.status} - ${errorText}`);
-//       }
-//       const result = await response.json();
-//       console.log('API response:', result);
-//       setMealSuggestion({
-//         name: result.meal,
-//         calories: result.calories,
-//         details: result.details,
-//       });
-//     } catch (error) {
-//       console.error('Fetch meal error:', error.message, error.stack);
-//       setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
-//     }
-//   };
-
-//   const handleMoodSelection = async (selectedMood) => {
-//     const user = auth().currentUser;
-//     if (!user || !mealSuggestion) return;
-
-//     setMood(selectedMood.name);
-//     setSuggestion(selectedMood.suggestion);
-
-//     try {
-//       await firestore().collection('users').doc(user.uid).collection('mood_logs').add({
-//         mood: selectedMood.name,
-//         meal: mealSuggestion.name,
-//         calories: mealSuggestion.calories,
-//         timestamp: firestore.Timestamp.now(),
-//       });
-//     } catch (error) {
-//       console.error('Error logging mood:', error.message);
-//     }
-//   };
-
-//   const renderMoodPicker = () => (
-//     <View style={styles.moodPickerCard}>
-//       <Text style={styles.cardTitle}>How are you feeling?</Text>
-//       <View style={styles.moodOptions}>
-//         {moods.map(moodOption => (
-//           <TouchableOpacity
-//             key={moodOption.name}
-//             style={[styles.moodButton, mood === moodOption.name && styles.moodButtonSelected]}
-//             onPress={() => handleMoodSelection(moodOption)}
-//           >
-//             <Icon
-//               name={moodOption.icon}
-//               size={30}
-//               color={mood === moodOption.name ? '#FFFFFF' : '#3B82F6'}
-//             />
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-//       {suggestion ? <Text style={styles.suggestionText}>{suggestion}</Text> : null}
-//     </View>
-//   );
-
-//   const renderWaterTracker = () => (
-//     <View style={styles.waterTrackerCard}>
-//       <View style={styles.waterHeader}>
-//         <Icon name="tint" size={24} color="#3B82F6" />
-//         <Text style={styles.cardTitle}>Water Intake</Text>
-//       </View>
-//       <View style={styles.waterGlasses}>
-//         {[...Array(targetWaterIntake)].map((_, index) => (
-//           <TouchableOpacity
-//             key={index}
-//             onPress={() => setWaterIntake(index + 1)}
-//             style={styles.glassContainer}
-//           >
-//             <Icon
-//               name="glass-whiskey"
-//               size={24}
-//               color={index < waterIntake ? '#3B82F6' : '#E5E7EB'}
-//             />
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-//       <Text style={styles.waterText}>
-//         {waterIntake} of {targetWaterIntake} glasses
-//       </Text>
-//     </View>
-//   );
-
-//   return (
-//     <ScrollView style={styles.container}>
-//       <View style={styles.header}>
-//         <Text style={styles.headerText}>Your Meal Plan</Text>
-//         <Text style={styles.subtitle}>Tailored for your goals</Text>
-//       </View>
-//       {loading ? (
-//         <Text style={styles.loadingText}>Loading your meal plan...</Text>
-//       ) : mealSuggestion ? (
-//         <View style={styles.mealCard}>
-//           <Icon name="utensils" size={24} color="#3B82F6" />
-//           <View style={styles.mealInfo}>
-//             <Text style={styles.mealName}>{mealSuggestion.name}</Text>
-//             <Text style={styles.mealCalories}>{mealSuggestion.calories} kcal</Text>
-//             <Text style={styles.mealDetails}>{mealSuggestion.details}</Text>
-//           </View>
-//         </View>
-//       ) : (
-//         <Text style={styles.loadingText}>Failed to load meal plan</Text>
-//       )}
-//       {renderMoodPicker()}
-//       {renderWaterTracker()}
-//       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomeScreen')}>
-//         <Text style={styles.backButtonText}>Back to Home</Text>
-//       </TouchableOpacity>
-//     </ScrollView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, backgroundColor: '#F5F5F5' },
-//   header: { padding: 20, backgroundColor: '#3B82F6', borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
-//   headerText: { fontSize: 28, fontWeight: 'bold', color: '#F5F5F5' },
-//   subtitle: { fontSize: 16, color: '#F5F5F5', opacity: 0.9, marginTop: 4 },
-//   mealCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 12, 
-//     flexDirection: 'row', 
-//     alignItems: 'center', 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   mealInfo: { flex: 1, marginLeft: 12 },
-//   mealName: { fontSize: 16, fontWeight: '600', color: '#333333' },
-//   mealCalories: { fontSize: 14, color: '#666666', marginTop: 4 },
-//   mealDetails: { fontSize: 14, color: '#666666', marginTop: 8 },
-//   moodPickerCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 16, 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   cardTitle: { fontSize: 20, fontWeight: 'bold', color: '#3B82F6', marginBottom: 12, textAlign: 'center' },
-//   moodOptions: { flexDirection: 'row', justifyContent: 'space-around' },
-//   moodButton: { 
-//     alignItems: 'center', 
-//     padding: 10, 
-//     borderWidth: 1, 
-//     borderColor: '#3B82F6', 
-//     borderRadius: 50, 
-//     width: 60, 
-//     height: 60, 
-//     justifyContent: 'center' 
-//   },
-//   moodButtonSelected: { backgroundColor: '#3B82F6', borderColor: '#3B82F6' },
-//   suggestionText: { fontSize: 16, color: '#333333', textAlign: 'center', marginTop: 12 },
-//   waterTrackerCard: { 
-//     backgroundColor: '#FFFFFF', 
-//     margin: 16, 
-//     padding: 20, 
-//     borderRadius: 16, 
-//     shadowColor: '#000', 
-//     shadowOffset: { width: 0, height: 2 }, 
-//     shadowOpacity: 0.1, 
-//     shadowRadius: 4, 
-//     elevation: 2 
-//   },
-//   waterHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
-//   waterGlasses: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginBottom: 12 },
-//   glassContainer: { padding: 4 },
-//   waterText: { fontSize: 16, color: '#333333', textAlign: 'center' },
-//   backButton: { margin: 16, padding: 12, backgroundColor: '#FFFFFF', borderRadius: 8, alignItems: 'center' },
-//   backButtonText: { fontSize: 16, color: '#3B82F6', fontWeight: '600' },
-//   loadingText: { textAlign: 'center', fontSize: 16, color: '#666666', margin: 20 },
-// });
-
-// export default NutritionScreen;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-// import Icon from 'react-native-vector-icons/FontAwesome5';
-// import auth from '@react-native-firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
-
-// const NutritionScreen = ({ navigation }) => {
-//   const [mealSuggestion, setMealSuggestion] = useState(null);
-//   const [waterIntake, setWaterIntake] = useState(0);
-//   const [loading, setLoading] = useState(true);
-//   const [mood, setMood] = useState(null);
-//   const [suggestion, setSuggestion] = useState('');
-//   const targetWaterIntake = 8;
-
-//   const moods = [
-//     { name: 'Happy', icon: 'smile', suggestion: 'Great mood! Enjoy your meal mindfully.' },
-//     { name: 'Sad', icon: 'sad-tear', suggestion: 'Treat yourself to a healthy comfort food.' },
-//     { name: 'Bored', icon: 'meh', suggestion: 'How about a quick walk instead of snacking?' },
-//     { name: 'Stressed', icon: 'frown', suggestion: 'Try a 5-min deep breathing exercise before eating.' },
-//   ];
-
-//   useEffect(() => {
-//     const unsubscribe = navigation.addListener('focus', () => {
-//       fetchUserData();
-//     });
-//     return unsubscribe;
-//   }, [navigation]);
-
-//   const fetchUserData = async () => {
-//     const user = auth().currentUser;
-//     if (!user) {
-//       navigation.navigate('Login');
-//       return;
-//     }
-
-//     try {
-//       const doc = await firestore().collection('users').doc(user.uid).get();
-//       if (doc.exists) {
-//         const data = doc.data().healthAssessment;
-//         console.log('Firestore healthAssessment:', data);
-//         await fetchMealPrediction(data);
-//       } else {
-//         setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
-//       }
-//     } catch (error) {
-//       console.error('Firestore fetch error:', error.message);
-//       setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const fetchMealPrediction = async (userData) => {
-//     try {
-//       const filteredData = {
-//         Height: userData.Height,
-//         Weight: userData.Weight,
-//         Age: userData.Age,
-//         Gender: userData.Gender,
-//         Activity_Level: userData.Activity_Level,
-//         Goal: userData.Goal,
-//         Health_Condition: userData.Health_Condition,
-//         Dietary_Preference: userData.Dietary_Preference,
-//         Food_Allergy: userData.Food_Allergy,
-//       };
-//       console.log('Sending to API:', filteredData);
-
-//       const response = await fetch('http://192.168.1.101:5000/predict_meal', {
+//       const response = await fetch('http://192.168.1.104:5000/predict_meal', {
 //         method: 'POST',
 //         headers: { 'Content-Type': 'application/json' },
 //         body: JSON.stringify(filteredData),
@@ -1133,6 +200,38 @@
 //   const handleMoodSelection = (selectedMood) => {
 //     setMood(selectedMood.name);
 //     setSuggestion(selectedMood.suggestion);
+//   };
+
+//   const handleWaterIntake = async (cups) => {
+//     const user = auth().currentUser;
+//     if (!user) return;
+
+//     console.log('Handling water intake:', cups);
+//     setWaterIntake(cups);
+//     const today = new Date().toISOString().split('T')[0];
+
+//     try {
+//       await firestore()
+//         .collection('users')
+//         .doc(user.uid)
+//         .collection('water_logs')
+//         .doc(today)
+//         .set({ cups, timestamp: firestore.Timestamp.now() }, { merge: true });
+//       console.log('Water intake saved:', cups);
+
+//       console.log('Sending immediate notification');
+//       PushNotification.localNotification({
+//         channelId: "default_channel_id",
+//         title: "Water Updated",
+//         message: `You’ve logged ${cups} cup${cups > 1 ? 's' : ''}!`,
+//         playSound: true,
+//         vibrate: true,
+//         priority: "high",
+//       });
+//     } catch (error) {
+//       console.error('Error saving water intake:', error.message);
+//       Alert.alert('Error', 'Failed to save water intake.');
+//     }
 //   };
 
 //   const renderMealSection = () => (
@@ -1161,7 +260,7 @@
 //     <View style={styles.card}>
 //       <Text style={styles.cardTitle}>How’s Your Vibe?</Text>
 //       <View style={styles.moodOptions}>
-//         {moods.map(moodOption => (
+//         {moods.map((moodOption) => (
 //           <TouchableOpacity
 //             key={moodOption.name}
 //             style={[styles.moodButton, mood === moodOption.name && styles.moodButtonSelected]}
@@ -1186,7 +285,7 @@
 //         {[...Array(targetWaterIntake)].map((_, index) => (
 //           <TouchableOpacity
 //             key={index}
-//             onPress={() => setWaterIntake(index + 1)}
+//             onPress={() => handleWaterIntake(index + 1)}
 //             style={styles.glassContainer}
 //           >
 //             <Icon
@@ -1197,7 +296,10 @@
 //           </TouchableOpacity>
 //         ))}
 //       </View>
-//       <Text style={styles.waterText}>{waterIntake}/{targetWaterIntake} glasses</Text>
+//       <Text style={styles.waterText}>
+//         {waterIntake}/{targetWaterIntake} glasses
+//         {waterIntake < targetWaterIntake ? ` - ${targetWaterIntake - waterIntake} to go!` : ' - Goal met!'}
+//       </Text>
 //     </View>
 //   );
 
@@ -1367,13 +469,16 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import PushNotification from 'react-native-push-notification';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const NutritionScreen = ({ navigation }) => {
+const NutritionScreen = ({ navigation, route }) => {
   const [mealSuggestion, setMealSuggestion] = useState(null);
+  const [allMeals, setAllMeals] = useState([]);
   const [waterIntake, setWaterIntake] = useState(0);
   const [loading, setLoading] = useState(true);
   const [mood, setMood] = useState(null);
   const [suggestion, setSuggestion] = useState('');
+  const [lastHealthData, setLastHealthData] = useState(null);
   const targetWaterIntake = 8;
 
   const moods = [
@@ -1383,7 +488,6 @@ const NutritionScreen = ({ navigation }) => {
     { name: 'Stressed', icon: 'frown', suggestion: 'Try a 5-min deep breathing exercise before eating.' },
   ];
 
-  // Configure Push Notifications
   useEffect(() => {
     console.log('Configuring PushNotification');
     PushNotification.configure({
@@ -1401,7 +505,6 @@ const NutritionScreen = ({ navigation }) => {
     });
   }, []);
 
-  // Daily Reset at Midnight
   useEffect(() => {
     const checkReset = async () => {
       const now = new Date();
@@ -1426,19 +529,17 @@ const NutritionScreen = ({ navigation }) => {
     return () => clearInterval(interval);
   }, []);
 
-  // Fetch data on screen focus
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
+      console.log('NutritionScreen focused, route params:', route.params);
       fetchUserData();
       fetchWaterIntake();
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, route.params]); // Added route.params to trigger on navigation
 
-  // Temporary 10-second notification interval
   useEffect(() => {
     let intervalId;
-
     const startReminderInterval = () => {
       intervalId = setInterval(() => {
         const remainingCups = targetWaterIntake - waterIntake;
@@ -1459,8 +560,7 @@ const NutritionScreen = ({ navigation }) => {
           priority: 'high',
           id: '12345',
         });
-      // }, 10 * 1000); // Every 10 seconds
-     }, 60 * 60 * 1000);
+      }, 60 * 60 * 1000);
     };
 
     if (waterIntake > 0) {
@@ -1488,6 +588,23 @@ const NutritionScreen = ({ navigation }) => {
       if (doc.exists) {
         const data = doc.data().healthAssessment;
         console.log('Firestore healthAssessment:', data);
+
+        const healthDataString = JSON.stringify(data);
+        if (healthDataString !== lastHealthData || route.params?.refresh) {
+          console.log('Health data changed or refresh requested, clearing cache');
+          console.log('Previous:', lastHealthData);
+          console.log('Current:', healthDataString);
+          const today = new Date().toISOString().split('T')[0];
+          await AsyncStorage.removeItem(`meals_${today}`);
+          setLastHealthData(healthDataString);
+          if (route.params?.refresh) {
+            console.log('Forced refresh from route params');
+            navigation.setParams({ refresh: false }); // Reset param
+          }
+        } else {
+          console.log('No change in health data');
+        }
+
         await fetchMealPrediction(data);
       } else {
         setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
@@ -1525,6 +642,18 @@ const NutritionScreen = ({ navigation }) => {
 
   const fetchMealPrediction = async (userData) => {
     try {
+      const today = new Date().toISOString().split('T')[0];
+      const cachedMealsKey = `meals_${today}`;
+      const cachedMeals = await AsyncStorage.getItem(cachedMealsKey);
+
+      if (cachedMeals && !route.params?.refresh) {
+        console.log('Using cached meals:', cachedMeals);
+        const meals = JSON.parse(cachedMeals);
+        setAllMeals(meals);
+        selectDailyMeal(meals);
+        return;
+      }
+
       const filteredData = {
         Height: userData.Height,
         Weight: userData.Weight,
@@ -1538,7 +667,7 @@ const NutritionScreen = ({ navigation }) => {
       };
       console.log('Sending to API:', filteredData);
 
-      const response = await fetch('http://192.168.1.105:5000/predict_meal', {
+      const response = await fetch('http://192.168.1.104:5000/predict_meal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(filteredData),
@@ -1549,15 +678,27 @@ const NutritionScreen = ({ navigation }) => {
       }
       const result = await response.json();
       console.log('API response:', result);
-      setMealSuggestion({
-        name: result.meal,
-        calories: result.calories,
-        details: result.details,
-      });
+
+      const meals = result.meals;
+      setAllMeals(meals);
+      await AsyncStorage.setItem(cachedMealsKey, JSON.stringify(meals));
+      selectDailyMeal(meals);
     } catch (error) {
       console.error('Fetch meal error:', error.message, error.stack);
       setMealSuggestion({ name: 'Default Meal', calories: 450, details: 'Default suggestion' });
     }
+  };
+
+  const selectDailyMeal = (meals) => {
+    const dayOfWeek = new Date().getDay();
+    const mealIndex = dayOfWeek % meals.length;
+    const selectedMeal = meals[mealIndex];
+    console.log('Selected meal for day', dayOfWeek, ':', selectedMeal);
+    setMealSuggestion({
+      name: selectedMeal.meal,
+      calories: selectedMeal.calories,
+      details: selectedMeal.details,
+    });
   };
 
   const handleMoodSelection = (selectedMood) => {
@@ -1672,7 +813,7 @@ const NutritionScreen = ({ navigation }) => {
       <View style={styles.secondarySection}>
         {renderMoodPicker()}
         {renderWaterTracker()}
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomeScreen')}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomeScreen')}>
           <Text style={styles.backButtonText}>Back to Home</Text>
         </TouchableOpacity>
       </View>

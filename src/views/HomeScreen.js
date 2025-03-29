@@ -1690,6 +1690,243 @@
 
 // export default HomeScreen;
 
+
+//===========================
+
+// import React, { useState, useEffect } from 'react';
+// import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+// import Icon from 'react-native-vector-icons/FontAwesome5';
+// import auth from '@react-native-firebase/auth';
+// import firestore from '@react-native-firebase/firestore';
+
+// const HomeScreen = ({ navigation }) => {
+//   const [userData, setUserData] = useState({
+//     name: 'User',
+//     currentWeight: 95.8,
+//     calorieGoal: 1800,
+//     steps: 4500,
+//     height: 170, // Default until fetched
+//     bmi: 0,      // Will be calculated
+//   });
+
+//   useEffect(() => {
+//     const fetchUserData = async () => {
+//       const user = auth().currentUser;
+//       if (!user) {
+//         console.log('No user logged in');
+//         navigation.navigate('Login');
+//         return;
+//       }
+
+//       try {
+//         // Get name from Firebase Auth
+//         const userName = user.displayName || 'User';
+//         console.log('Fetched name from Auth:', userName);
+
+//         // Fetch data from Firestore
+//         const userDoc = await firestore().collection('users').doc(user.uid).get();
+//         if (userDoc.exists) {
+//           const firestoreData = userDoc.data();
+//           const healthAssessment = firestoreData.healthAssessment || {};
+//           const weight = healthAssessment.Weight || 95.8;
+//           const height = healthAssessment.Height || 170; // Height in cm
+//           const bmi = calculateBMI(weight, height);
+
+//           setUserData({
+//             name: userName,
+//             currentWeight: weight,
+//             calorieGoal: firestoreData.calorieGoal || 1800,
+//             steps: firestoreData.steps || 4500,
+//             height: height,
+//             bmi: bmi,
+//           });
+//         } else {
+//           setUserData(prev => ({ ...prev, name: userName }));
+//         }
+//       } catch (error) {
+//         console.error('Error fetching user data:', error.message);
+//         setUserData(prev => ({ ...prev, name: 'User' }));
+//       }
+//     };
+
+//     fetchUserData();
+//   }, [navigation]);
+
+//   // BMI Calculation Function
+//   const calculateBMI = (weight, height) => {
+//     const heightInMeters = height / 100; // Convert cm to meters
+//     const bmi = weight / (heightInMeters * heightInMeters);
+//     return bmi.toFixed(1); // Round to 1 decimal place
+//   };
+
+//   return (
+//     <ScrollView style={styles.container}>
+//       <View style={styles.greetingSection}>
+//         <Text style={styles.greetingText}>Hi {userData.name}!</Text>
+//         <Text style={styles.subtitle}>Your personalized health hub</Text>
+//       </View>
+
+//       <View style={styles.quickStats}>
+//         <View style={styles.statCard}>
+//           <Icon name="weight" size={24} color="#34C759" />
+//           <Text style={styles.statValue}>{userData.currentWeight} kg</Text>
+//           <Text style={styles.statLabel}>Weight</Text>
+//         </View>
+//         <View style={styles.statCard}>
+//           <Icon name="fire" size={24} color="#34C759" />
+//           <Text style={styles.statValue}>{userData.calorieGoal} kcal</Text>
+//           <Text style={styles.statLabel}>Calorie Goal</Text>
+//         </View>
+//         <View style={styles.statCard}>
+//           <Icon name="shoe-prints" size={24} color="#34C759" />
+//           <Text style={styles.statValue}>{userData.steps}</Text>
+//           <Text style={styles.statLabel}>Steps</Text>
+//         </View>
+//         <View style={styles.statCard}>
+//           <Icon name="calculator" size={24} color="#34C759" />
+//           <Text style={styles.statValue}>{userData.bmi}</Text>
+//           <Text style={styles.statLabel}>BMI</Text>
+//         </View>
+//       </View>
+
+//       <View style={styles.tilesContainer}>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('ExerciseScreen')}>
+//           <View style={styles.tileContent}>
+//             <Icon name="dumbbell" size={40} color="#3B82F6" />
+//             <View style={styles.tileTextContainer}>
+//               <Text style={styles.tileText}>Today’s Workout</Text>
+//               <Text style={styles.tileSubtitle}>Get moving now!</Text>
+//             </View>
+//             <Icon name="chevron-right" size={20} color="#3B82F6" />
+//           </View>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('NutritionScreen')}>
+//           <View style={styles.tileContent}>
+//             <Icon name="apple-alt" size={40} color="#3B82F6" />
+//             <View style={styles.tileTextContainer}>
+//               <Text style={styles.tileText}>Meal Plan</Text>
+//               <Text style={styles.tileSubtitle}>Fuel your day!</Text>
+//             </View>
+//             <Icon name="chevron-right" size={20} color="#3B82F6" />
+//           </View>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('ProfileScreen')}>
+//           <View style={styles.tileContent}>
+//             <Icon name="chart-line" size={40} color="#3B82F6" />
+//             <View style={styles.tileTextContainer}>
+//               <Text style={styles.tileText}>Track Progress</Text>
+//               <Text style={styles.tileSubtitle}>See your gains!</Text>
+//             </View>
+//             <Icon name="chevron-right" size={20} color="#3B82F6" />
+//           </View>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('MotivationScreen')}>
+//           <View style={styles.tileContent}>
+//             <Icon name="star" size={40} color="#3B82F6" />
+//             <View style={styles.tileTextContainer}>
+//               <Text style={styles.tileText}>Motivation</Text>
+//               <Text style={styles.tileSubtitle}>Stay inspired!</Text>
+//             </View>
+//             <Icon name="chevron-right" size={20} color="#3B82F6" />
+//           </View>
+//         </TouchableOpacity>
+//       </View>
+//     </ScrollView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#F5F5F5',
+//   },
+//   greetingSection: {
+//     padding: 20,
+//     backgroundColor: '#3B82F6',
+//     borderBottomLeftRadius: 20,
+//     borderBottomRightRadius: 20,
+//   },
+//   greetingText: {
+//     fontSize: 28,
+//     fontWeight: 'bold',
+//     color: '#F5F5F5',
+//   },
+//   subtitle: {
+//     fontSize: 16,
+//     color: '#F5F5F5',
+//     opacity: 0.9,
+//     marginTop: 4,
+//   },
+//   quickStats: {
+//     flexDirection: 'row',
+//     flexWrap: 'wrap', // Allow wrapping for 4 stats
+//     justifyContent: 'space-around',
+//     padding: 16,
+//   },
+//   statCard: {
+//     backgroundColor: '#FFFFFF',
+//     padding: 12,
+//     borderRadius: 12,
+//     alignItems: 'center',
+//     width: '45%', // Adjust width for 2-per-row layout
+//     marginBottom: 16, // Space between rows
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 8,
+//   },
+//   statValue: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#333333',
+//     marginTop: 8,
+//   },
+//   statLabel: {
+//     fontSize: 14,
+//     color: '#666666',
+//     marginTop: 4,
+//   },
+//   tilesContainer: {
+//     padding: 16,
+//     flexDirection: 'column',
+//   },
+//   tile: {
+//     width: '100%',
+//     height: 100,
+//     backgroundColor: '#FFFFFF',
+//     borderRadius: 16,
+//     marginBottom: 16,
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 4,
+//     elevation: 8,
+//   },
+//   tileContent: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//     padding: 20,
+//     flex: 1,
+//   },
+//   tileTextContainer: {
+//     flex: 1,
+//     marginLeft: 16,
+//   },
+//   tileText: {
+//     fontSize: 18,
+//     fontWeight: '600',
+//     color: '#3B82F6',
+//   },
+//   tileSubtitle: {
+//     fontSize: 14,
+//     color: '#666666',
+//     marginTop: 4,
+//   },
+// });
+
+// export default HomeScreen;
+
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -1702,8 +1939,8 @@ const HomeScreen = ({ navigation }) => {
     currentWeight: 95.8,
     calorieGoal: 1800,
     steps: 4500,
-    height: 170, // Default until fetched
-    bmi: 0,      // Will be calculated
+    height: 170,
+    bmi: 0,
   });
 
   useEffect(() => {
@@ -1716,17 +1953,15 @@ const HomeScreen = ({ navigation }) => {
       }
 
       try {
-        // Get name from Firebase Auth
         const userName = user.displayName || 'User';
         console.log('Fetched name from Auth:', userName);
 
-        // Fetch data from Firestore
         const userDoc = await firestore().collection('users').doc(user.uid).get();
         if (userDoc.exists) {
           const firestoreData = userDoc.data();
           const healthAssessment = firestoreData.healthAssessment || {};
           const weight = healthAssessment.Weight || 95.8;
-          const height = healthAssessment.Height || 170; // Height in cm
+          const height = healthAssessment.Height || 170;
           const bmi = calculateBMI(weight, height);
 
           setUserData({
@@ -1749,83 +1984,89 @@ const HomeScreen = ({ navigation }) => {
     fetchUserData();
   }, [navigation]);
 
-  // BMI Calculation Function
   const calculateBMI = (weight, height) => {
-    const heightInMeters = height / 100; // Convert cm to meters
-    const bmi = weight / (heightInMeters * heightInMeters);
-    return bmi.toFixed(1); // Round to 1 decimal place
+    const heightInMeters = height / 100;
+    return (weight / (heightInMeters * heightInMeters)).toFixed(1);
   };
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.greetingSection}>
-        <Text style={styles.greetingText}>Hi {userData.name}!</Text>
-        <Text style={styles.subtitle}>Your personalized health hub</Text>
+      <View style={styles.headerSection}>
+        <View style={styles.headerContent}>
+          <Text style={styles.headerText}>Hello, {userData.name}</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
+            <Icon name="user-circle" size={28} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.headerSubtitle}>Your daily health dashboard</Text>
       </View>
 
-      <View style={styles.quickStats}>
+      <View style={styles.statsSection}>
         <View style={styles.statCard}>
-          <Icon name="weight" size={24} color="#34C759" />
+          <Icon name="weight" size={28} color="#10B981" />
           <Text style={styles.statValue}>{userData.currentWeight} kg</Text>
           <Text style={styles.statLabel}>Weight</Text>
         </View>
         <View style={styles.statCard}>
-          <Icon name="fire" size={24} color="#34C759" />
+          <Icon name="fire" size={28} color="#10B981" />
           <Text style={styles.statValue}>{userData.calorieGoal} kcal</Text>
           <Text style={styles.statLabel}>Calorie Goal</Text>
         </View>
         <View style={styles.statCard}>
-          <Icon name="shoe-prints" size={24} color="#34C759" />
-          <Text style={styles.statValue}>{userData.steps}</Text>
+          <Icon name="shoe-prints" size={28} color="#10B981" />
+          <Text style="styles.statValue">{userData.steps}</Text>
           <Text style={styles.statLabel}>Steps</Text>
         </View>
         <View style={styles.statCard}>
-          <Icon name="calculator" size={24} color="#34C759" />
+          <Icon name="calculator" size={28} color="#10B981" />
           <Text style={styles.statValue}>{userData.bmi}</Text>
           <Text style={styles.statLabel}>BMI</Text>
         </View>
       </View>
 
-      <View style={styles.tilesContainer}>
-        <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('ExerciseScreen')}>
-          <View style={styles.tileContent}>
-            <Icon name="dumbbell" size={40} color="#3B82F6" />
-            <View style={styles.tileTextContainer}>
-              <Text style={styles.tileText}>Today’s Workout</Text>
-              <Text style={styles.tileSubtitle}>Get moving now!</Text>
-            </View>
-            <Icon name="chevron-right" size={20} color="#3B82F6" />
+      <View style={styles.actionsSection}>
+        <TouchableOpacity style={styles.actionTile} onPress={() => navigation.navigate('ExerciseScreen')}>
+          <View style={styles.tileIconContainer}>
+            <Icon name="dumbbell" size={36} color="#FFFFFF" />
           </View>
+          <View style={styles.tileTextContainer}>
+            <Text style={styles.tileTitle}>Today’s Workout</Text>
+            <Text style={styles.tileSubtitle}>Power up your day</Text>
+          </View>
+          <Icon name="chevron-right" size={20} color="#10B981" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('NutritionScreen')}>
-          <View style={styles.tileContent}>
-            <Icon name="apple-alt" size={40} color="#3B82F6" />
-            <View style={styles.tileTextContainer}>
-              <Text style={styles.tileText}>Meal Plan</Text>
-              <Text style={styles.tileSubtitle}>Fuel your day!</Text>
-            </View>
-            <Icon name="chevron-right" size={20} color="#3B82F6" />
+
+        <TouchableOpacity style={styles.actionTile} onPress={() => navigation.navigate('NutritionScreen')}>
+          <View style={styles.tileIconContainer}>
+            <Icon name="apple-alt" size={36} color="#FFFFFF" />
           </View>
+          <View style={styles.tileTextContainer}>
+            <Text style={styles.tileTitle}>Meal Plan</Text>
+            <Text style={styles.tileSubtitle}>Nourish your body</Text>
+          </View>
+          <Icon name="chevron-right" size={20} color="#10B981" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('ProfileScreen')}>
-          <View style={styles.tileContent}>
-            <Icon name="chart-line" size={40} color="#3B82F6" />
-            <View style={styles.tileTextContainer}>
-              <Text style={styles.tileText}>Track Progress</Text>
-              <Text style={styles.tileSubtitle}>See your gains!</Text>
-            </View>
-            <Icon name="chevron-right" size={20} color="#3B82F6" />
+
+        <TouchableOpacity style={styles.actionTile} onPress={() => navigation.navigate('ProfileScreen')}>
+          <View style={styles.tileIconContainer}>
+            <Icon name="chart-line" size={36} color="#FFFFFF" />
           </View>
+          <View style={styles.tileTextContainer}>
+            <Text style={styles.tileTitle}>Track Progress</Text>
+            <Text style={styles.tileSubtitle}>Monitor your success</Text>
+          </View>
+          <Icon name="chevron-right" size={20} color="#10B981" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('MotivationScreen')}>
-          <View style={styles.tileContent}>
-            <Icon name="star" size={40} color="#3B82F6" />
-            <View style={styles.tileTextContainer}>
-              <Text style={styles.tileText}>Motivation</Text>
-              <Text style={styles.tileSubtitle}>Stay inspired!</Text>
-            </View>
-            <Icon name="chevron-right" size={20} color="#3B82F6" />
+
+        <TouchableOpacity style={styles.actionTile} onPress={() => navigation.navigate('MotivationScreen')}>
+          <View style={styles.tileIconContainer}>
+            <Icon name="star" size={36} color="#FFFFFF" />
           </View>
+          <View style={styles.tileTextContainer}>
+            <Text style={styles.tileTitle}>Motivation</Text>
+            <Text style={styles.tileSubtitle}>Keep the spark alive</Text>
+          </View>
+          <Icon name="chevron-right" size={20} color="#10B981" />
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -1835,88 +2076,104 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#F7FAFC', // Light gray-blue
   },
-  greetingSection: {
-    padding: 20,
-    backgroundColor: '#3B82F6',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+  headerSection: {
+    backgroundColor: '#10B981', // Vibrant green header
+    paddingTop: 40,
+    paddingBottom: 35,
+    paddingHorizontal: 24,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
   },
-  greetingText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#F5F5F5',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#F5F5F5',
-    opacity: 0.9,
-    marginTop: 4,
-  },
-  quickStats: {
+  headerContent: {
     flexDirection: 'row',
-    flexWrap: 'wrap', // Allow wrapping for 4 stats
-    justifyContent: 'space-around',
-    padding: 16,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 30,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    letterSpacing: 0.2,
+  },
+  headerSubtitle: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#D1FAE5', // Light green tint for subtitle
+    marginTop: 6,
+  },
+  statsSection: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    padding: 20,
   },
   statCard: {
-    backgroundColor: '#FFFFFF',
-    padding: 12,
-    borderRadius: 12,
-    alignItems: 'center',
-    width: '45%', // Adjust width for 2-per-row layout
-    marginBottom: 16, // Space between rows
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 8,
-  },
-  statValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333333',
-    marginTop: 8,
-  },
-  statLabel: {
-    fontSize: 14,
-    color: '#666666',
-    marginTop: 4,
-  },
-  tilesContainer: {
-    padding: 16,
-    flexDirection: 'column',
-  },
-  tile: {
-    width: '100%',
-    height: 100,
+    width: '48%',
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
+    padding: 16,
+    alignItems: 'center',
     marginBottom: 16,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 8,
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
   },
-  tileContent: {
+  statValue: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#111827',
+    marginTop: 12,
+  },
+  statLabel: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 4,
+  },
+  actionsSection: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  actionTile: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 20,
-    flex: 1,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 16,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
+  },
+  tileIconContainer: {
+    backgroundColor: '#10B981',
+    borderRadius: 12,
+    padding: 12,
+    marginRight: 16,
   },
   tileTextContainer: {
     flex: 1,
-    marginLeft: 16,
   },
-  tileText: {
+  tileTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#3B82F6',
+    fontWeight: '700',
+    color: '#111827',
   },
   tileSubtitle: {
     fontSize: 14,
-    color: '#666666',
+    color: '#6B7280',
     marginTop: 4,
   },
 });

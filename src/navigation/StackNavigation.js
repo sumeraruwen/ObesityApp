@@ -11,6 +11,9 @@ import ExerciseScreen from '../views/ExerciseScreen';
 import MotivationScreen from '../views/MotivationScreen';
 import ProfileScreen from '../views/ProfileScreen';
 import WorkoutHistory from '../views/WorkoutHistory';
+import GoalsScreen from '../views/GoalsScreen';
+import HealthyTipsScreen from '../views/HealthTipsScreen';
+import CommunityScreen from '../views/CommunityScreen';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +36,9 @@ const StackNavigation = ({ user }) => {
       <Stack.Screen name="MotivationScreen" component={MotivationScreen} />
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       <Stack.Screen name="WorkoutHistory" component={WorkoutHistory} />
+      <Stack.Screen name="GoalsScreen" component={GoalsScreen} />
+      <Stack.Screen name="HealthyTipsScreen" component={HealthyTipsScreen} />
+      <Stack.Screen name="CommunityScreen" component={CommunityScreen} />
 
     </Stack.Navigator>
   );

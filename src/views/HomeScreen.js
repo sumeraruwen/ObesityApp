@@ -2058,12 +2058,34 @@ const HomeScreen = ({ navigation }) => {
           <Icon name="chevron-right" size={20} color="#10B981" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.actionTile} onPress={() => navigation.navigate('MotivationScreen')}>
+        <TouchableOpacity style={styles.actionTile} onPress={() => navigation.navigate('GoalsScreen')}>
+          <View style={styles.tileIconContainer}>
+            <Icon name="chart-line" size={36} color="#FFFFFF" />
+          </View>
+          <View style={styles.tileTextContainer}>
+            <Text style={styles.tileTitle}>Set & Track Goals</Text>
+            <Text style={styles.tileSubtitle}>Monitor your success</Text>
+          </View>
+          <Icon name="chevron-right" size={20} color="#10B981" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.actionTile} onPress={() => navigation.navigate('HealthyTipsScreen')}>
           <View style={styles.tileIconContainer}>
             <Icon name="star" size={36} color="#FFFFFF" />
           </View>
           <View style={styles.tileTextContainer}>
-            <Text style={styles.tileTitle}>Motivation</Text>
+            <Text style={styles.tileTitle}>Healthy Tips</Text>
+            <Text style={styles.tileSubtitle}>Keep the spark alive</Text>
+          </View>
+          <Icon name="chevron-right" size={20} color="#10B981" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.actionTile} onPress={() => navigation.navigate('CommunityScreen')}>
+          <View style={styles.tileIconContainer}>
+            <Icon name="star" size={36} color="#FFFFFF" />
+          </View>
+          <View style={styles.tileTextContainer}>
+            <Text style={styles.tileTitle}>Community</Text>
             <Text style={styles.tileSubtitle}>Keep the spark alive</Text>
           </View>
           <Icon name="chevron-right" size={20} color="#10B981" />

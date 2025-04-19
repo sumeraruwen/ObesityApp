@@ -1110,7 +1110,7 @@ const ExerciseScreen = ({ navigation }) => {
         const doc = await firestore().collection('users').doc(user.uid).get();
         if (doc.exists) {
           const healthAssessment = doc.data().healthAssessment;
-          const response = await fetch('http://192.168.1.101:5000/predict_exercises', {
+          const response = await fetch('http://192.168.1.100:5000/predict_exercises', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(healthAssessment),

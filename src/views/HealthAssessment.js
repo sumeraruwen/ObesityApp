@@ -1006,7 +1006,7 @@ const HealthAssessment = () => {
         Health_Condition: formData.healthConditions[0] || 'None', // Default if empty
         Dietary_Preference: formData.dietaryPreferences.dietType,
         Food_Allergy: formData.dietaryPreferences.allergies[0] || 'No Allergies', // Default if empty
-        Target_Weight: parseFloat(formData.targetWeight), // Optional, not used by model yet
+        Target_Weight: parseFloat(formData.targetWeight), 
         completedAt: firestore.Timestamp.now(),
         updatedAt: firestore.Timestamp.now(),
       };

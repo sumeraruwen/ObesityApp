@@ -1068,6 +1068,7 @@ const NutritionScreen = ({ navigation, route }) => {
           priority: 'high',
           id: '12345',
         });
+        // }, 10 * 1000); // Every 10 seconds
       }, 60 * 60 * 1000);
     };
 
@@ -1182,7 +1183,7 @@ const NutritionScreen = ({ navigation, route }) => {
       };
       console.log('Sending to API:', filteredData);
 
-      const response = await fetch('http://192.168.1.101:5000/predict_meal', {
+      const response = await fetch('http://192.168.1.100:5000/predict_meal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(filteredData),

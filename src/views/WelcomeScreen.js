@@ -1,4 +1,3 @@
-// src/WelcomeScreen.js
 import React from 'react';
 import { View, Text, StyleSheet, Image, Button, TouchableOpacity,ImageBackground } from 'react-native';
 import ButtonComponent from '../components/ButtonComponent';
@@ -50,18 +49,7 @@ const WelcomeScreen = ({ navigation }) => {
         customStyles={customStyles}
       />
 
-       {/* Image at the bottom right corner */}
-       {/* <Image
-        source={require('../assets/WelcomeEllipse.webp')}
-        style={styles.bottomRightImage}
-      /> */}
-
-       {/* Image at the bottom center */}
-       {/* <Image
-        source={require('../assets/girl2.webp')}
-        style={styles.bottomCenterImage}
-      /> */}
- 
+     
     </View>
     </ImageBackground>
   );
@@ -71,17 +59,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center', // Align the button to the bottom
-   paddingBottom: '10%', // Add padding at the bottom for better spacing
+    justifyContent: 'center', 
+   paddingBottom: '10%', 
   //  paddingHorizontal:'20%'
   },
   textContainer: {
-    alignItems: 'flex-start', // Align text to the left side
+    alignItems: 'flex-start', 
    marginTop:"62%"
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover', // or 'stretch' for different cover options
+    resizeMode: 'cover', 
   },
   text: {
     fontSize: fontSizes.fontXXXXLarge,

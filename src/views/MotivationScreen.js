@@ -1,4 +1,3 @@
-// src/screens/MotivationScreen.js
 import React from 'react';
 import { View, Text, TextInput, Alert, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';

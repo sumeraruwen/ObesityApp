@@ -3,7 +3,7 @@ import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-nati
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import auth from '@react-native-firebase/auth';
 
-// Professional tips for obese individuals
+// Professional tips - obese pesrson
 const OBESITY_TIPS = [
   { text: 'Break your meals into smaller portions to control hunger throughout the day.', source: 'Nutritionist' },
   { text: 'Walk for 10 minutes after each meal to boost metabolism and burn calories.', source: 'Fitness Expert' },

@@ -60,6 +60,8 @@ const WorkoutHistoryScreen = ({ navigation }) => {
     setExpandedItem(expandedItem === id ? null : id);
   };
 
+  //Render History
+
   const renderSummary = () => {
     const { totalWorkouts, avgDuration } = calculateSummary();
     return (
